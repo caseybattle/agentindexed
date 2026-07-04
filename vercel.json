@@ -1,0 +1,6 @@
+{
+ "buildCommand": "pip3 install pillow -q || true; python3 gen.py",
+ "outputDirectory": "agentindexed",
+ "cleanUrls": true,
+ "trailingSlash": true
+}
