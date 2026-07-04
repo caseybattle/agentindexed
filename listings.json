@@ -1,0 +1,1510 @@
+[
+ {
+  "slug": "claude-code",
+  "name": "Claude Code",
+  "url": "https://github.com/anthropics/claude-code",
+  "category": "Coding Agents",
+  "tags": [
+   "TypeScript",
+   "Anthropic"
+  ],
+  "description": "Terminal-first agentic coding from Anthropic with Computer Use integration, multi-file edits, persistent shell sessions, Git operations, and fine-tuning support.",
+  "featured": true,
+  "plan": "featured"
+ },
+ {
+  "slug": "cursor",
+  "name": "Cursor",
+  "url": "https://cursor.com",
+  "category": "Coding Agents",
+  "tags": [
+   "TypeScript",
+   "IDE"
+  ],
+  "description": "AI-native IDE with parallel Cloud Agents and 100K+ enterprise users.",
+  "featured": true,
+  "plan": "featured"
+ },
+ {
+  "slug": "devin",
+  "name": "Devin",
+  "url": "https://devin.ai",
+  "category": "Coding Agents",
+  "tags": [
+   "Cloud",
+   "GitHub"
+  ],
+  "description": "Fully autonomous AI software engineer showing 8-12x efficiency gains in production (Nubank case study), cloud sandbox with persistent state, GitHub integration, and enterprise adoption growing 40% MoM.",
+  "featured": true,
+  "plan": "featured"
+ },
+ {
+  "slug": "crewai",
+  "name": "CrewAI",
+  "url": "https://github.com/crewAIInc/crewAI",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Production multi-agent framework with 5K+ GitHub stars, role-based collaboration, async execution, and 1500+ company adoptions.",
+  "featured": true,
+  "plan": "featured"
+ },
+ {
+  "slug": "langgraph",
+  "name": "LangGraph",
+  "url": "https://github.com/langchain-ai/langgraph",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "LangChain"
+  ],
+  "description": "Stateful, graph-based agent workflow framework from LangChain.",
+  "featured": true,
+  "plan": "featured"
+ },
+ {
+  "slug": "agent-s2",
+  "name": "Agent S2",
+  "url": "https://github.com/simular-ai/Agent-S",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Python",
+   "Vision"
+  ],
+  "description": "Open-source GUI automation framework for building desktop and browser agents with vision.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentql",
+  "name": "AgentQL",
+  "url": "https://github.com/tinyfish-io/agentql",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "AI-powered web scraping and automation with a semantic query language for page elements.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "airtop",
+  "name": "Airtop",
+  "url": "https://www.airtop.ai",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Enterprise-grade cloud browser infrastructure for AI agent automation at scale.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "browser-use",
+  "name": "Browser Use",
+  "url": "https://github.com/browser-use/browser-use",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Open-source framework to let LLMs navigate and interact with any website programmatically.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "browserbase",
+  "name": "Browserbase",
+  "url": "https://www.browserbase.com",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Scalable headless browser infrastructure purpose-built for running AI agents in production.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "dia-browser",
+  "name": "Dia Browser",
+  "url": "https://www.diabrowser.com",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "AI-native browser from Atlassian and the Browser Company with built-in agent workflows.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "manus",
+  "name": "Manus",
+  "url": "https://manus.im",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Autonomous digital employee with Browser Operator extension acquired by Meta for web-based task execution.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "multion",
+  "name": "MultiOn",
+  "url": "https://www.theagi.company/",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Reliable web automation API with CAPTCHA handling for building production browser agents.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "openai-operator",
+  "name": "OpenAI Operator",
+  "url": "https://openai.com/index/computer-using-agent/",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Cloud",
+   "OpenAI"
+  ],
+  "description": "ChatGPT autonomous web agent with human checkpoints using Computer Use Agent technology.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "skyvern",
+  "name": "Skyvern",
+  "url": "https://github.com/Skyvern-AI/skyvern",
+  "category": "Browser & Computer Use",
+  "tags": [
+   "Python",
+   "GitHub"
+  ],
+  "description": "Production browser automation with 21.5K GitHub stars, 10M+ executed workflows, vision-first automation, and sub-300ms response times.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "aider",
+  "name": "Aider",
+  "url": "https://github.com/Aider-AI/aider",
+  "category": "Coding Agents",
+  "tags": [
+   "Python",
+   "CLI"
+  ],
+  "description": "Terminal-first pair programmer that edits code in local repos, preserves Git history, and supports multi-file changes.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "amazon-q-developer",
+  "name": "Amazon Q Developer",
+  "url": "https://aws.amazon.com/q/developer/",
+  "category": "Coding Agents",
+  "tags": [
+   "Python",
+   "IDE"
+  ],
+  "description": "AWS-native AI coding assistant with Lambda, CloudWatch, infrastructure support, and security scanning.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "coderabbit",
+  "name": "CodeRabbit",
+  "url": "https://www.coderabbit.ai",
+  "category": "Coding Agents",
+  "tags": [
+   "Cloud",
+   "GitHub"
+  ],
+  "description": "AI-powered PR reviewer with inline suggestions, security scanning, and automatic code quality checks.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "codex-cli",
+  "name": "Codex CLI",
+  "url": "https://github.com/openai/codex",
+  "category": "Coding Agents",
+  "tags": [
+   "Python",
+   "OpenAI"
+  ],
+  "description": "OpenAI's lightweight, open-source terminal coding agent with fast execution and strong benchmark scores.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "kiro",
+  "name": "Kiro",
+  "url": "https://kiro.dev",
+  "category": "Coding Agents",
+  "tags": [
+   "Cloud",
+   "IDE"
+  ],
+  "description": "Spec-driven development agent that writes specs, auto-generates tasks, implements code, and automates DevOps workflows.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "pr-agent",
+  "name": "PR-Agent",
+  "url": "https://github.com/The-PR-Agent/pr-agent",
+  "category": "Coding Agents",
+  "tags": [
+   "Python",
+   "GitHub"
+  ],
+  "description": "Open-source AI PR reviewer that auto-describes, reviews, and improves pull requests.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "qodo",
+  "name": "Qodo",
+  "url": "https://www.qodo.ai",
+  "category": "Coding Agents",
+  "tags": [
+   "Cloud",
+   "Security"
+  ],
+  "description": "AI code review platform with context-aware PR validation and security analysis.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "sourcegraph-cody",
+  "name": "Sourcegraph Cody",
+  "url": "https://sourcegraph.com/docs/cody",
+  "category": "Coding Agents",
+  "tags": [
+   "TypeScript",
+   "IDE"
+  ],
+  "description": "AI coding assistant that excels at large codebases with an enterprise context engine.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "swe-agent",
+  "name": "SWE-agent",
+  "url": "https://github.com/SWE-agent/SWE-agent",
+  "category": "Coding Agents",
+  "tags": [
+   "Python",
+   "GitHub"
+  ],
+  "description": "Takes a GitHub issue and tries to automatically fix it.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "tabnine",
+  "name": "Tabnine",
+  "url": "https://www.tabnine.com",
+  "category": "Coding Agents",
+  "tags": [
+   "TypeScript",
+   "IDE"
+  ],
+  "description": "Privacy-first AI code completion with on-premise deployment and codebase fine-tuning options.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "taskweaver",
+  "name": "TaskWeaver",
+  "url": "https://github.com/microsoft/TaskWeaver",
+  "category": "Coding Agents",
+  "tags": [
+   "Python",
+   "Microsoft"
+  ],
+  "description": "A code-first agent framework from Microsoft for planning and executing data analytics tasks.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "aionui",
+  "name": "AionUi",
+  "url": "https://github.com/iOfficeAI/AionUi",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Desktop",
+   "Multi-Agent"
+  ],
+  "description": "Connects 20+ AI CLIs and any API key in a local, open-source multi-agent desktop workspace.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "chatgpt",
+  "name": "ChatGPT",
+  "url": "https://openai.com/chatgpt",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Cloud",
+   "OpenAI"
+  ],
+  "description": "General-purpose AI platform with GPTs, Deep Research, Canvas, and Agent Mode across the widest plugin ecosystem.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "claude",
+  "name": "Claude",
+  "url": "https://claude.com/product/overview",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Cloud",
+   "MCP"
+  ],
+  "description": "Reasoning-focused AI with Computer Use, MCP integration, and Chrome browsing for coding and long document analysis.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "coze",
+  "name": "Coze",
+  "url": "https://www.coze.com",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Cloud",
+   "No-Code"
+  ],
+  "description": "No-code agent builder with a marketplace of 100+ custom agents and plugin integrations.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "gemini",
+  "name": "Gemini",
+  "url": "https://deepmind.google/models/gemini/",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Cloud",
+   "Multimodal"
+  ],
+  "description": "Google's multimodal AI with 1M token context, Deep Think, Gems, and NotebookLM for workspace integration.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "openhuman",
+  "name": "OpenHuman",
+  "url": "https://github.com/tinyhumansai/openhuman",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Rust",
+   "Memory"
+  ],
+  "description": "Self-hosted local-first personal AI assistant with a Rust core, desktop apps, knowledge-graph memory, skills, voice, and multi-channel messaging.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "adobe-firefly-3",
+  "name": "Adobe Firefly 3",
+  "url": "https://firefly.adobe.com",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Generates commercially safe images from text prompts using a model trained exclusively on licensed data.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "dall-e-3-5",
+  "name": "DALL-E 3.5",
+  "url": "https://openai.com/dall-e-3",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "OpenAI"
+  ],
+  "description": "Generates detailed images from text prompts with 95% text accuracy integrated directly into ChatGPT.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "elevenlabs-music",
+  "name": "ElevenLabs Music",
+  "url": "https://elevenlabs.io/music",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Generates vocals and instrumentals with stem separation and per-section editing for audio production.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "google-imagen-4",
+  "name": "Google Imagen 4",
+  "url": "https://deepmind.google/models/imagen/",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Produces photorealistic images from text via Google DeepMind accessible through AI Studio.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "google-veo-3-1",
+  "name": "Google Veo 3.1",
+  "url": "https://deepmind.google/models/veo/",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "IDE"
+  ],
+  "description": "Generates the highest cinematic quality video with native audio from text prompts via Google DeepMind.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "seedream-ai-studio",
+  "name": "Seedream AI Studio",
+  "url": "https://seedream4.video/",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "CLI"
+  ],
+  "description": "Multi-model AI image generation platform by ByteDance using Seedream 5.0/4.5/4.0 models with one-click image-to-video animation via Kling 2.1.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "sora-2",
+  "name": "Sora 2",
+  "url": "https://sora.com",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "OpenAI"
+  ],
+  "description": "Generates 25-second cinematic video clips with strong narrative coherence from text prompts by OpenAI.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "stable-audio",
+  "name": "Stable Audio",
+  "url": "https://stableaudio.com",
+  "category": "Creative Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Generates instrumental audio tracks with a commercial license included by default for all outputs.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "ada",
+  "name": "Ada",
+  "url": "https://www.ada.cx",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Resolves 60% of customer support tickets automatically with complex multi-turn query understanding.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "assembled",
+  "name": "Assembled",
+  "url": "https://www.assembled.com",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Routes support tickets with workforce-aware scheduling and intelligent handoff to human agents.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "dixa",
+  "name": "Dixa",
+  "url": "https://www.dixa.com",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "CRM-first conversational support platform with AI-powered routing and customer context enrichment.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "dynamics-365-copilot",
+  "name": "Dynamics 365 Copilot",
+  "url": "https://www.microsoft.com/en-us/dynamics-365/solutions/service",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Microsoft"
+  ],
+  "description": "Drafts, summarizes, and translates across Office 365 with deep Microsoft ecosystem integration.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "intercom-fin",
+  "name": "Intercom Fin",
+  "url": "https://fin.ai",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Resolves 50% of SaaS support tickets by learning directly from your help center and knowledge base.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "salesforce-einstein",
+  "name": "Salesforce Einstein",
+  "url": "https://www.salesforce.com/artificial-intelligence/?bc=OTH",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Enterprise AI with predictions, autonomous agents, and CRM automation across the Salesforce platform.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "servicenow-ai-agents",
+  "name": "ServiceNow AI Agents",
+  "url": "https://www.servicenow.com/products/ai-agents.html",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Orchestrates AI agents across IT, HR, and CRM workflows for enterprise service management.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "zendesk-ai",
+  "name": "Zendesk AI",
+  "url": "https://www.zendesk.com/service/ai/",
+  "category": "Customer Support & CRM",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Automates 30% of enterprise support tickets with deep integration into the existing Zendesk ecosystem.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agency-swarm",
+  "name": "Agency Swarm",
+  "url": "https://github.com/VRSEN/agency-swarm",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Orchestrates multi-agent systems built on the OpenAI Assistants API with role-based collaboration.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentscope",
+  "name": "AgentScope",
+  "url": "https://github.com/agentscope-ai/agentscope",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Alibaba multi-agent framework with distributed deployment and fault tolerance for production use.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "anthropic-sdk",
+  "name": "Anthropic SDK",
+  "url": "https://github.com/anthropics/anthropic-sdk-python",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Anthropic"
+  ],
+  "description": "Official Claude SDK with tool use, computer control, and streaming for building Claude-native agents.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "autogen",
+  "name": "AutoGen",
+  "url": "https://github.com/microsoft/autogen",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Event-driven multi-agent framework merged with Semantic Kernel for production workflows.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "aws-bedrock-agents",
+  "name": "AWS Bedrock Agents",
+  "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Compliance"
+  ],
+  "description": "Managed AWS infrastructure for agents with Bedrock models, enterprise compliance, and auto-scaling deployment.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "haystack",
+  "name": "Haystack",
+  "url": "https://github.com/deepset-ai/haystack",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "RAG"
+  ],
+  "description": "Production-ready AI orchestration framework focused on building customizable LLM applications and RAG pipelines.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "hivemoot",
+  "name": "Hivemoot",
+  "url": "https://github.com/hivemoot/hivemoot",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "GitHub"
+  ],
+  "description": "Autonomous agent teams that collaboratively build software on GitHub.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "langsmith-fleet",
+  "name": "LangSmith Fleet",
+  "url": "https://smith.langchain.com/hub/fleet",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Cloud",
+   "LangChain"
+  ],
+  "description": "No-code agent orchestration platform with visual workflow builder and enterprise deployment.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "openai-agents-sdk",
+  "name": "OpenAI Agents SDK",
+  "url": "https://github.com/openai/openai-agents-python",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Lightweight multi-agent SDK with tracing and guardrails from OpenAI.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "praisonai",
+  "name": "PraisonAI",
+  "url": "https://github.com/MervinPraison/PraisonAI",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "MCP"
+  ],
+  "description": "Production multi-agent framework with self-reflection, MCP integration, and workflow automation.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "semantic-kernel",
+  "name": "Semantic Kernel",
+  "url": "https://github.com/microsoft/semantic-kernel",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "C#",
+   "Microsoft"
+  ],
+  "description": "Microsoft enterprise SDK for Python, C#, and Java with modular plugins, memory, and goal planning.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "swarm",
+  "name": "Swarm",
+  "url": "https://github.com/openai/swarm",
+  "category": "Frameworks & SDKs",
+  "tags": [
+   "Python",
+   "OpenAI"
+  ],
+  "description": "Lightweight framework for agent handoffs, context variables, and function calling patterns from OpenAI.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "anthropic-finance-agents",
+  "name": "Anthropic Finance Agents",
+  "url": "https://www.anthropic.com",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Domain-specialized agents for earnings analysis and portfolio insight.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "goldman-sachs-marquee-ai",
+  "name": "Goldman Sachs Marquee AI",
+  "url": "https://www.goldmansachs.com",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Market data and analytics agents built on Marquee platform.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "jpmorgan-alphablue",
+  "name": "JPMorgan AlphaBlue",
+  "url": "https://www.jpmorgan.com/global",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Trading and market analysis agent integrations for institutional workflows.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "lexisnexis-ai",
+  "name": "LexisNexis AI",
+  "url": "https://www.lexisnexis.com/en-us/gateway.page",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "Research"
+  ],
+  "description": "Document review and legal research agents.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "morgan-stanley-advisorbot",
+  "name": "Morgan Stanley AdvisorBot",
+  "url": "https://www.morganstanley.com",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "CLI"
+  ],
+  "description": "Financial advisory assistant for advisors and retail clients.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "nuance-healthcare-ai",
+  "name": "Nuance Healthcare AI",
+  "url": "https://www.microsoft.com/en-us/health-solutions",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "CLI"
+  ],
+  "description": "Speech and clinical AI solutions for documentation and radiology.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "siemens-ai-ops",
+  "name": "Siemens AI Ops",
+  "url": "https://www.siemens.com/en-us/",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Factory-floor optimization and predictive maintenance agents.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "westlaw-ai-assisted-research",
+  "name": "Westlaw AI-Assisted Research",
+  "url": "https://legal.thomsonreuters.com/en/westlaw",
+  "category": "Industry Agents",
+  "tags": [
+   "Cloud",
+   "Multi-Agent"
+  ],
+  "description": "Case law analysis and brief drafting agents.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agent-starter",
+  "name": "Agent Starter",
+  "url": "https://github.com/raintree-technology/agent-starter",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "TypeScript",
+   "MCP"
+  ],
+  "description": "Project-local config manager that syncs one `agent.json` manifest into Claude Code, Codex, Cursor, and MCP setup while preserving manual edits and detecting drift.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentdock",
+  "name": "AgentDock",
+  "url": "https://github.com/agentdock/agentdock",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Python",
+   "Docker"
+  ],
+  "description": "Framework for building and deploying production-ready AI agents with composable node architecture.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "aws-bedrock-agentcore",
+  "name": "AWS Bedrock AgentCore",
+  "url": "https://github.com/awslabs/agentcore-samples",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "TypeScript",
+   "Compliance"
+  ],
+  "description": "Managed AWS infrastructure for Bedrock-based agents with compliance, scaling, and monitoring built in.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "aws-lambda",
+  "name": "AWS Lambda",
+  "url": "https://github.com/aws/aws-lambda-python-runtime-interface-client",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Python",
+   "Serverless"
+  ],
+  "description": "Serverless function runtime with Firecracker isolation for executing short-lived agent tasks at scale.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "codex-profiles",
+  "name": "codex-profiles",
+  "url": "https://github.com/Ducksss/codex-profiles",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Python",
+   "OpenAI"
+  ],
+  "description": "Bash CLI for switching OpenAI Codex CLI and Desktop profiles with isolated CODEX_HOME directories.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "crawl4ai",
+  "name": "Crawl4AI",
+  "url": "https://github.com/unclecode/crawl4ai",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Extracts structured data from web pages using LLM-friendly output formats optimized for agent ingestion.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "firecracker",
+  "name": "Firecracker",
+  "url": "https://github.com/firecracker-microvm/firecracker",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Rust",
+   "AWS"
+  ],
+  "description": "Lightweight microVM technology with 125ms boot time used by AWS Lambda and E2B under the hood.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "gvisor",
+  "name": "gVisor",
+  "url": "https://github.com/google/gvisor",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Go",
+   "IDE"
+  ],
+  "description": "User-space kernel that intercepts syscalls to provide VM-level security with container-level overhead.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "notte",
+  "name": "Notte",
+  "url": "https://github.com/nottelabs/notte",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Python",
+   "Pipeline"
+  ],
+  "description": "Browser automation engine optimized for production AI pipelines.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "railway",
+  "name": "Railway",
+  "url": "https://railway.com/",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Cloud",
+   "Stateful"
+  ],
+  "description": "One-click deploy from GitHub with persistent volumes and databases for stateful agent deployments.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "acontext",
+  "name": "Acontext",
+  "url": "https://github.com/memodb-io/Acontext",
+  "category": "Memory & Context",
+  "tags": [
+   "Python",
+   "Local"
+  ],
+  "description": "Manages agent skills and long-term memory as a layered data structure for persistent context.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentage-memory",
+  "name": "Agentage Memory",
+  "url": "https://agentage.io",
+  "category": "Memory & Context",
+  "tags": [
+   "Cloud",
+   "MCP"
+  ],
+  "description": "Cross-vendor shared memory layer exposed as a remote MCP server at `memory.agentage.io/mcp` (Streamable HTTP, OAuth 2.1 + PKCE + DCR) that Claude, Cursor, and ChatGPT read and write as plain markdown you own.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "chroma",
+  "name": "Chroma",
+  "url": "https://github.com/chroma-core/chroma",
+  "category": "Memory & Context",
+  "tags": [
+   "Python",
+   "Vector DB"
+  ],
+  "description": "Lightweight, embeddable vector store for building memory-augmented AI agents with fast semantic retrieval.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "cognee",
+  "name": "cognee",
+  "url": "https://github.com/topoteretes/cognee",
+  "category": "Memory & Context",
+  "tags": [
+   "Python",
+   "Graph-Based"
+  ],
+  "description": "Knowledge engine for AI agent memory, set up in 6 lines of code with graph-based knowledge extraction.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "cortex-memory",
+  "name": "Cortex Memory",
+  "url": "https://github.com/prem-research/cortex",
+  "category": "Memory & Context",
+  "tags": [
+   "Python",
+   "Vector DB"
+  ],
+  "description": "Full-stack solution for agent memory covering extraction, vector search, and optimization.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "pinecone",
+  "name": "Pinecone",
+  "url": "https://www.pinecone.io",
+  "category": "Memory & Context",
+  "tags": [
+   "Cloud",
+   "Vector DB"
+  ],
+  "description": "Managed vector database with agent namespaces for multi-tenant isolation, hybrid search (vector + keyword), serverless auto-scaling, and $11B valuation.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "activepieces",
+  "name": "Activepieces",
+  "url": "https://github.com/activepieces/activepieces",
+  "category": "No-Code Builders",
+  "tags": [
+   "TypeScript",
+   "Docker"
+  ],
+  "description": "Open-source Zapier alternative with AI-powered automation nodes and visual workflow builder.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentgpt",
+  "name": "AgentGPT",
+  "url": "https://github.com/reworkd/AgentGPT",
+  "category": "No-Code Builders",
+  "tags": [
+   "TypeScript",
+   "Local"
+  ],
+  "description": "Deploy AI agents in the browser with zero local setup required.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "dify",
+  "name": "Dify",
+  "url": "https://github.com/langgenius/dify",
+  "category": "No-Code Builders",
+  "tags": [
+   "Python",
+   "RAG"
+  ],
+  "description": "Open-source LLM app development platform with visual workflow builder and RAG orchestration.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "fastagency",
+  "name": "FastAgency",
+  "url": "https://github.com/ag2ai/fastagency",
+  "category": "No-Code Builders",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Deploys multi-agent workflows as production APIs with minimal configuration and setup.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "flowise",
+  "name": "Flowise",
+  "url": "https://github.com/FlowiseAI/Flowise",
+  "category": "No-Code Builders",
+  "tags": [
+   "TypeScript",
+   "RAG"
+  ],
+  "description": "Open-source drag-and-drop UI to build customized LLM flows, RAG pipelines, and agent systems.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "google-project-idx",
+  "name": "Google Project IDX",
+  "url": "https://firebase.studio",
+  "category": "No-Code Builders",
+  "tags": [
+   "Cloud",
+   "IDE"
+  ],
+  "description": "AI-powered cloud IDE with free Claude Opus access for building full projects across all frameworks.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "temporal",
+  "name": "Temporal",
+  "url": "https://github.com/temporalio/temporal",
+  "category": "No-Code Builders",
+  "tags": [
+   "Go",
+   "Multi-Agent"
+  ],
+  "description": "Durable execution platform for long-running agent workflows with automatic retry and state persistence.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "v0-by-vercel",
+  "name": "v0 by Vercel",
+  "url": "https://v0.app",
+  "category": "No-Code Builders",
+  "tags": [
+   "Cloud",
+   "CLI"
+  ],
+  "description": "Generates React and Tailwind UI components from text descriptions with one-click Vercel deployment.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "cajal",
+  "name": "CAJAL",
+  "url": "https://github.com/Agnuxo1/CAJAL",
+  "category": "Research Agents",
+  "tags": [
+   "Python",
+   "Local"
+  ],
+  "description": "Local AI agent that generates publication-ready IMRaD scientific papers with verified arXiv citations and AI tribunal scoring.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "chatgpt-deep-research",
+  "name": "ChatGPT Deep Research",
+  "url": "https://openai.com/index/introducing-deep-research",
+  "category": "Research Agents",
+  "tags": [
+   "Cloud",
+   "OpenAI"
+  ],
+  "description": "Conducts extended reasoning with web browsing to produce structured research reports with Canvas output.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "claude-deep-research",
+  "name": "Claude Deep Research",
+  "url": "https://www.anthropic.com/research",
+  "category": "Research Agents",
+  "tags": [
+   "Cloud",
+   "Anthropic"
+  ],
+  "description": "Performs multi-step investigation with verified source citations and 200K token context window.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "deerflow",
+  "name": "DeerFlow",
+  "url": "https://github.com/bytedance/deer-flow",
+  "category": "Research Agents",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Multi-agent research system from ByteDance with planning and execution loops for autonomous investigation.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "gemini-deep-research",
+  "name": "Gemini Deep Research",
+  "url": "https://blog.google/products-and-platforms/products/gemini/google-gemini-deep-research/",
+  "category": "Research Agents",
+  "tags": [
+   "Cloud",
+   "RAG"
+  ],
+  "description": "Leverages Google Search and Knowledge Graph integration with 1M token context for breadth-first research.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "perplexity-personal-computer",
+  "name": "Perplexity Personal Computer",
+  "url": "https://www.perplexity.ai/pc",
+  "category": "Research Agents",
+  "tags": [
+   "Cloud",
+   "Vision"
+  ],
+  "description": "Autonomous research agent with vision capabilities, real-time search integration, and document analysis for comprehensive research workflows.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "perplexity-pro",
+  "name": "Perplexity Pro",
+  "url": "https://www.perplexity.ai",
+  "category": "Research Agents",
+  "tags": [
+   "Cloud",
+   "IDE"
+  ],
+  "description": "Provides real-time search answers with inline citations and follow-up threads for iterative research.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "superhighway",
+  "name": "Superhighway",
+  "url": "https://superhighway.walls.sh",
+  "category": "Research Agents",
+  "tags": [
+   "Python",
+   "IDE"
+  ],
+  "description": "Web search API for agents (search, news, scrape, research) with a Python guide for building an academic [literature-review agent](https://superhighway.walls.sh/guides/academic-research-agent).",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agent-os",
+  "name": "Agent OS",
+  "url": "https://github.com/buildermethods/agent-os",
+  "category": "Safety & Observability",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Kernel architecture for governing autonomous AI agents with policy enforcement.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentdog",
+  "name": "AgentDoG",
+  "url": "https://github.com/AI45Lab/AgentDoG",
+  "category": "Safety & Observability",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Diagnostic guardrails that analyze full agent execution trajectories to detect instruction hijacking and tool misuse.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentguard",
+  "name": "AgentGuard",
+  "url": "https://github.com/cyberark/agent-guard",
+  "category": "Safety & Observability",
+  "tags": [
+   "Python",
+   "Observability"
+  ],
+  "description": "Runtime observability and guardrails for AI agents with loop detection and anomaly alerts.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agenttrace",
+  "name": "agenttrace",
+  "url": "https://github.com/luoyuctl/agenttrace",
+  "category": "Safety & Observability",
+  "tags": [
+   "Go",
+   "CLI"
+  ],
+  "description": "Local-first TUI for AI coding agent session observability with tokens, cost, latency, tool failures, anomalies, reports, diffs, and CI health gates.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "aport-agent-guardrails",
+  "name": "APort Agent Guardrails",
+  "url": "https://github.com/aporthq/aport-agent-guardrails",
+  "category": "Safety & Observability",
+  "tags": [
+   "Python",
+   "Multi-Agent"
+  ],
+  "description": "Pre-action authorization plugin for agent frameworks with policy-based access control.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "elevenagents",
+  "name": "ElevenAgents",
+  "url": "https://elevenlabs.io/agents",
+  "category": "Safety & Observability",
+  "tags": [
+   "Cloud",
+   "Voice"
+  ],
+  "description": "Voice agent platform from ElevenLabs for customer support automation with HIPAA compliance and multi-language support.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "langsmith",
+  "name": "LangSmith",
+  "url": "https://smith.langchain.com",
+  "category": "Safety & Observability",
+  "tags": [
+   "Cloud",
+   "LangChain"
+  ],
+  "description": "LangChain platform for tracing, testing, and evaluating agent performance with production monitoring.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "swe-bench",
+  "name": "SWE-bench",
+  "url": "https://github.com/SWE-bench/SWE-bench",
+  "category": "Safety & Observability",
+  "tags": [
+   "Python",
+   "GitHub"
+  ],
+  "description": "Benchmark for evaluating LLMs on real-world software engineering tasks from GitHub issues.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "agentset",
+  "name": "Agentset",
+  "url": "https://github.com/agentset-ai/agentset",
+  "category": "Voice Agents",
+  "tags": [
+   "Python",
+   "RAG"
+  ],
+  "description": "Production RAG platform with reasoning, hybrid search, and full multimodal support.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "google-cloud-speech-to-text-v2",
+  "name": "Google Cloud Speech-to-Text v2",
+  "url": "https://cloud.google.com/speech-to-text",
+  "category": "Voice Agents",
+  "tags": [
+   "Cloud",
+   "Pipeline"
+  ],
+  "description": "Google Cloud streaming and batch speech recognition API v2 with improved accuracy, streaming, and noise suppression for real-time agent pipelines.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "livekit-agents",
+  "name": "LiveKit Agents",
+  "url": "https://github.com/livekit/agents",
+  "category": "Voice Agents",
+  "tags": [
+   "Python",
+   "IDE"
+  ],
+  "description": "Framework for building real-time, multimodal AI agents with voice, video, and data channels.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "nuance-ai",
+  "name": "Nuance AI",
+  "url": "https://dragon.nuance.com/en-us/home",
+  "category": "Voice Agents",
+  "tags": [
+   "Cloud",
+   "CLI"
+  ],
+  "description": "Enterprise speech and conversational AI platform for clinical and contact-center workflows with HIPAA-capable deployments.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "pipecat",
+  "name": "Pipecat",
+  "url": "https://github.com/pipecat-ai/pipecat",
+  "category": "Voice Agents",
+  "tags": [
+   "Python",
+   "Streaming"
+  ],
+  "description": "Production-grade voice AI framework with sub-250ms latency, WebRTC support, multimodal (voice+vision+text), real-time streaming, and 70+ language support.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "polyai",
+  "name": "PolyAI",
+  "url": "https://poly.ai/en",
+  "category": "Voice Agents",
+  "tags": [
+   "Cloud",
+   "Voice"
+  ],
+  "description": "Enterprise voice AI platform for natural multi-turn conversations with high-volume call handling.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "rasa",
+  "name": "Rasa",
+  "url": "https://github.com/RasaHQ/rasa",
+  "category": "Voice Agents",
+  "tags": [
+   "Python",
+   "Self-Hosted"
+  ],
+  "description": "Open-source conversational AI framework with self-hosted NLU training and dialogue management.",
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "wispr-flow",
+  "name": "Wispr Flow",
+  "url": "https://wisprflow.ai/",
+  "category": "Voice Agents",
+  "tags": [
+   "Cloud",
+   "Voice"
+  ],
+  "description": "Voice orchestration platform for multimodal AI agents with 50+ language support, workflow building, and enterprise integrations.",
+  "featured": false,
+  "plan": "free"
+ }
+]
