@@ -85,6 +85,7 @@ def page(title, desc, body, canonical="", schema=None, noindex=False):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://www.google.com">
 <link rel="alternate" type="application/rss+xml" title="{SITE} — new AI agents" href="{DOMAIN}/feed.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236366f1'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>A</text></svg>">
 {sc}{HEAD_EXTRA}
@@ -198,7 +199,7 @@ for c in cat_names:
     body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {esc(c)}</div>
 <section class="wrap" style="padding-top:20px">
-<div class="sec-head"><div><h2 class="sec" style="font-size:2.3rem">{ICONS.get(c,"")} <span class="em">{esc(c)}</span></h2>
+<div class="sec-head"><div><h1 class="sec" style="font-size:2.3rem">{ICONS.get(c,"")} <span class="em">{esc(c)}</span></h1>
 <p class="sub" style="max-width:720px">{esc(cc['intro'])}</p></div>
 <a class="sec-link" href="/pricing/">Get the top spot →</a></div>
 <div class="grid">{"".join(card(l) for l in ls)}</div>
@@ -273,7 +274,7 @@ pricing_body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> Pricing</div>
 <section class="wrap" style="padding-top:20px">
 <div style="text-align:center;max-width:640px;margin:0 auto 34px">
-<h2 class="sec" style="font-size:2.5rem">Get your agent <span class="em">discovered</span></h2>
+<h1 class="sec" style="font-size:2.5rem">Get your agent <span class="em">discovered</span></h1>
 <p class="sub" style="margin:14px auto 0">Every listing includes a dofollow backlink. Payments are secured by Stripe. Featured &amp; Pro listings go live within 24 hours — or your money back.</p>
 </div>
 <div class="price-grid">
@@ -300,7 +301,7 @@ cat_opts="".join(f'<option>{esc(c)}</option>' for c in sorted(cats.keys()))
 submit_body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> Submit</div>
 <section class="wrap" style="padding-top:20px;max-width:700px">
-<h2 class="sec" style="font-size:2.3rem">Submit your <span class="em">AI agent</span></h2>
+<h1 class="sec" style="font-size:2.3rem">Submit your <span class="em">AI agent</span></h1>
 <p class="sub" style="margin-top:12px">Free listings are reviewed in 5–7 days. Want it live tomorrow at the top of the category? <a href="/pricing/" style="color:#a5b4fc;font-weight:600">Go Featured for $49 →</a></p>
 <form id="subform" style="margin-top:10px">
 <label for="f-name">Agent name *</label><input required id="f-name" placeholder="e.g. AcmeAgent">
@@ -348,7 +349,7 @@ open(os.path.join(d,"index.html"),"w").write(page(f"Thanks — Next Steps | {SIT
 about_body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> About</div>
 <section class="wrap prose legal" style="padding-top:24px;max-width:760px">
-<h2 class="sec" style="font-size:2.2rem">About <span class="em">{SITE}</span></h2>
+<h1 class="sec" style="font-size:2.2rem">About <span class="em">{SITE}</span></h1>
 <p>{SITE} exists because finding the right AI agent got harder, not easier. Thousands of agents launched in the last two years; most directories responded with pay-to-play rankings, auto-scraped junk listings, and zero curation.</p>
 <p>We do it differently. Every listing on this index is reviewed by a human before it goes live. Categories describe what a tool actually does. Search results are never influenced by payment — featured placements are clearly badged and confined to featured slots.</p>
 <h2>Curation policy</h2>
@@ -362,7 +363,7 @@ open(os.path.join(d,"index.html"),"w").write(page(f"About — Our Curation Polic
 # ---------- LEGAL ----------
 def legal_page(slug,title,body_html,desc):
     d=os.path.join(ROOT,slug);os.makedirs(d,exist_ok=True)
-    open(os.path.join(d,"index.html"),"w").write(page(f"{title} | {SITE}",desc,f'<div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {title}</div><section class="wrap prose legal" style="padding-top:24px;max-width:760px"><h2 class="sec" style="font-size:2rem">{title}</h2><p class="sub">Last updated: {TODAY.strftime("%B %d, %Y")}</p>{body_html}</section>',canonical=f"/{slug}/"))
+    open(os.path.join(d,"index.html"),"w").write(page(f"{title} | {SITE}",desc,f'<div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {title}</div><section class="wrap prose legal" style="padding-top:24px;max-width:760px"><h1 class="sec" style="font-size:2rem">{title}</h1><p class="sub">Last updated: {TODAY.strftime("%B %d, %Y")}</p>{body_html}</section>',canonical=f"/{slug}/"))
 
 legal_page("terms","Terms of Service",f"""
 <h2>The service</h2><p>{SITE} is a curated directory of third-party AI tools. We list, describe, and link to products we do not own or operate. Listings are informational — we make no warranty about any listed product's quality, security, or fitness for your purpose.</p>
