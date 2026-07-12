@@ -1,0 +1,23 @@
+# AgentIndexed
+> Hand-curated directory of 116 AI agents, frameworks, and tools across 13 categories. Every listing is human-reviewed. Free and featured listings available.
+
+## Key pages
+- [All categories](https://agentindexed.com/#categories)
+- [Pricing / feature your agent](https://agentindexed.com/pricing/): Featured $49 one-time, Pro $19/mo, Homepage sponsor $99/mo
+- [Submit an agent](https://agentindexed.com/submit/)
+- [About & curation policy](https://agentindexed.com/about/)
+
+## Categories
+- [Browser & Computer Use](https://agentindexed.com/categories/browser-computer-use/): 10 agents. Browser and computer-use agents click, type, scroll, and navigate real interfaces — automating the web and desktop the way a human operator would.
+- [Coding Agents](https://agentindexed.com/categories/coding-agents/): 14 agents. Coding agents pair-program, review pull requests, and in some cases ship entire features autonomously.
+- [Consumer Platforms](https://agentindexed.com/categories/consumer-platforms/): 6 agents. Consumer agent platforms bring multi-agent power to everyday users — personal assistants, agent app stores, and interfaces that orchestrate agents behind a simple chat.
+- [Creative Agents](https://agentindexed.com/categories/creative-agents/): 8 agents. Creative agents generate and edit images, video, music, and design assets — increasingly as autonomous pipelines rather than single prompts.
+- [Customer Support & CRM](https://agentindexed.com/categories/customer-support-crm/): 8 agents. Support and CRM agents resolve tickets, draft replies, and keep customer data in sync — deflecting repetitive volume so human teams handle the judgment calls.
+- [Frameworks & SDKs](https://agentindexed.com/categories/frameworks-sdks/): 14 agents. Agent frameworks and SDKs are the foundation layer — orchestration, role-based multi-agent collaboration, tool calling, and state management.
+- [Industry Agents](https://agentindexed.com/categories/industry-agents/): 8 agents. Industry agents are purpose-built for one vertical — healthcare, security, finance — with the domain knowledge, integrations, and compliance posture that generic agents lack.
+- [Infrastructure & Tooling](https://agentindexed.com/categories/infrastructure-tooling/): 10 agents. Agent infrastructure covers the layer that makes agents production-ready: deployment, hosting, sandboxed execution, tool integration, and scaling.
+- [Memory & Context](https://agentindexed.com/categories/memory-context/): 6 agents. Memory and context tools give agents persistence — long-term recall, user preferences, and knowledge that survives across sessions.
+- [No-Code Builders](https://agentindexed.com/categories/no-code-builders/): 8 agents. No-code agent builders let non-developers assemble working agents with visual canvases, templates, and drag-and-drop tooling.
+- [Research Agents](https://agentindexed.com/categories/research-agents/): 8 agents. Deep research agents plan multi-step investigations, browse dozens of sources, and return cited reports — compressing hours of analyst work into minutes.
+- [Safety & Observability](https://agentindexed.com/categories/safety-observability/): 8 agents. Safety and observability tools are how teams ship agents without losing sleep: guardrails, evals, tracing, and monitoring for systems that act autonomously.
+- [Voice Agents](https://agentindexed.com/categories/voice-agents/): 8 agents. Voice agents hold real-time spoken conversations — answering calls, qualifying leads, and handling support with sub-second latency.

@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """AgentIndexed generator v3 — max optimization build."""
-import json, os, html, re
+import json, os, html, re, functools
 from datetime import date, datetime, timezone
 from urllib.parse import urlparse, quote
+
+open = functools.partial(open, encoding="utf-8")  # ponytail: Windows cp1252 default breaks on unicode (✦, →, em-dash) in output
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(BASE, "agentindexed")
@@ -19,10 +21,23 @@ listings = json.load(open(os.path.join(BASE, "listings.json")))
 cats = {}
 for l in listings: cats.setdefault(l["category"], []).append(l)
 
-ICONS = {"Coding Agents":"⌨️","Frameworks & SDKs":"🧱","Browser & Computer Use":"🖱️","Voice Agents":"🎙️",
-"Customer Support & CRM":"💬","No-Code Builders":"🪄","Research Agents":"🔬","Creative Agents":"🎨",
-"Infrastructure & Tooling":"⚙️","Memory & Context":"🧠","Safety & Observability":"🛡️",
-"Industry Agents":"🏭","Consumer Platforms":"📱"}
+ICON_PATHS = {
+"Coding Agents": '<polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line>',
+"Frameworks & SDKs": '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path>',
+"Browser & Computer Use": '<path d="m9 9 5 12 1.8-5.2L21 14Z"></path><path d="M7.2 2.2 8 5.1"></path><path d="m5.1 8-2.9-.8"></path><path d="M14 4.1 12 6"></path><path d="m6 12-1.9 2"></path>',
+"Voice Agents": '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line>',
+"Customer Support & CRM": '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path>',
+"No-Code Builders": '<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path>',
+"Research Agents": '<path d="M6 18h8"></path><path d="M3 22h18"></path><path d="M14 22a7 7 0 1 0 0-14h-1"></path><path d="M9 14h2"></path><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"></path><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"></path>',
+"Creative Agents": '<circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"></path>',
+"Infrastructure & Tooling": '<rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line>',
+"Memory & Context": '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path>',
+"Safety & Observability": '<path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3 8 3Z"></path><path d="m9 12 2 2 4-4"></path>',
+"Industry Agents": '<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a1 1 0 0 0-1.6-.8L2 8Z"></path><path d="M17 18h1"></path><path d="M12 18h1"></path><path d="M7 18h1"></path>',
+"Consumer Platforms": '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>',
+}
+def _icon(paths): return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cat-svg" aria-hidden="true">{paths}</svg>'
+ICONS = {c: _icon(p) for c,p in ICON_PATHS.items()}
 
 CC = {
 "Coding Agents":{"intro":"Coding agents pair-program, review pull requests, and in some cases ship entire features autonomously. The category spans terminal-first tools, IDE-native assistants, and fully autonomous software engineers that take a ticket and return a tested pull request.","choose":["Match the agent to where you actually work — terminal, IDE, or CI pipeline","Check repo-scale context handling if you have a large codebase","Prefer agents with permission gates and reviewable diffs if they can execute code"],"uses":["Automating bug fixes and refactors from issue to pull request","AI pair programming inside the IDE or terminal","Automated code review, testing, and security scanning in CI"]},
@@ -95,7 +110,7 @@ def page(title, desc, body, canonical="", schema=None, noindex=False):
 <header><div class="wrap nav">
 <a class="logo" href="/"><span class="dot">▲</span>Agent<span>Indexed</span></a>
 <nav class="nav-links" aria-label="Main">
-<a href="/#categories">Categories</a><a href="/#all">All Agents</a><a href="/pricing/">Pricing</a>
+<a href="/#categories">Categories</a><a href="/#categories">All Agents</a><a href="/pricing/">Pricing</a>
 <a class="btn btn-p" href="/submit/">Submit Agent</a>
 </nav>
 </div></header>
@@ -103,7 +118,7 @@ def page(title, desc, body, canonical="", schema=None, noindex=False):
 <footer><div class="wrap foot">
 <div style="max-width:300px"><div class="brand">▲ {SITE}</div>The curated index of AI agents. Hand-reviewed listings, honest categories, zero fluff — built for people who ship.<br><br>© {TODAY.year} {SITE}</div>
 <div class="cols">
-<div><h4>Directory</h4><li><a href="/#categories">Categories</a></li><li><a href="/#all">All agents</a></li><li><a href="/feed.xml">RSS feed</a></li><li><a href="/sitemap.xml">Sitemap</a></li></div>
+<div><h4>Directory</h4><li><a href="/#categories">Categories</a></li><li><a href="/#categories">All agents</a></li><li><a href="/feed.xml">RSS feed</a></li><li><a href="/sitemap.xml">Sitemap</a></li></div>
 <div><h4>For builders</h4><li><a href="/submit/">Submit an agent</a></li><li><a href="/pricing/">Get featured</a></li><li><a href="/pricing/">Sponsorship</a></li></div>
 <div><h4>Company</h4><li><a href="/about/">About</a></li><li><a href="/terms/">Terms</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/refunds/">Refund policy</a></li><li><a href="mailto:{CONTACT}">Contact</a></li></div>
 </div>
@@ -142,11 +157,8 @@ def crumbs_schema(items): return {"@context":"https://schema.org","@type":"Bread
 # ---------- HOME ----------
 strip_domains = ["anthropic.com","openai.com","github.com","google.com","microsoft.com","aws.amazon.com","huggingface.co","langchain.com"]
 strip = "".join(f'<img src="https://www.google.com/s2/favicons?domain={d}&sz=64" alt="{d}" loading="lazy" width="26" height="26">' for d in strip_domains)
-cat_cards = "".join(f'<a class="cat-card reveal" href="/categories/{cslug(c)}/"><div class="cat-ico">{ICONS.get(c,"🤖")}</div><div><b>{esc(c)}</b><span>{len(cats[c])} agents</span></div></a>' for c in cat_names)
+cat_cards = "".join(f'<a class="cat-card reveal" href="/categories/{cslug(c)}/"><div class="cat-ico">{ICONS.get(c,"")}</div><div><b>{esc(c)}</b><span>{len(cats[c])} agents</span></div></a>' for c in cat_names)
 feat_cards = "".join(card(l) for l in featured)
-all_secs = ""
-for c in cat_names:
-    all_secs += f'''<div class="sec-head" style="margin-top:44px"><div><h2 class="sec">{ICONS.get(c,"")} {esc(c)}</h2><p class="sub">{len(cats[c])} curated agents</p></div><a class="sec-link" href="/categories/{cslug(c)}/">View category →</a></div><div class="grid">''' + "".join(card(l) for l in sorted(cats[c], key=lambda x:(not x["featured"],x["name"].lower()))) + "</div>"
 
 home_schema = [
  {"@context":"https://schema.org","@type":"WebSite","name":SITE,"url":DOMAIN,"description":f"Curated directory of {len(listings)} AI agents and tools."},
@@ -174,7 +186,6 @@ home_body = f"""
 <div class="step reveal"><span class="n">03</span><b>Get discovered</b><p>Your own SEO page, a dofollow backlink, and visibility in the AI assistants that crawl this index.</p></div>
 </div></section>
 <section class="wrap"><div class="upsell reveal"><div class="upsell-in"><h3>🎉 Founding Member spots — free Featured placement, first 20 only</h3><p>Free listings are always open. For launch week, the first 20 agents get Featured placement (top of category + homepage) at no cost in exchange for a short testimonial — normally a one-time $49.</p><a class="btn btn-gold" href="/pricing/">Claim a founding spot →</a></div></div></section>
-<section class="wrap" id="all"><div class="sec-head"><div><h2 class="sec">The full <span class="em">index</span></h2><p class="sub">All {len(listings)} agents across {len(cat_names)} categories.</p></div></div>{all_secs}</section>
 <section class="wrap"><div class="sec-head"><div><h2 class="sec">Frequently asked <span class="em">questions</span></h2></div></div>{faq_html(HOME_FAQ)}</section>
 """
 open(os.path.join(ROOT,"index.html"),"w").write(page(
@@ -199,7 +210,7 @@ for c in cat_names:
     body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {esc(c)}</div>
 <section class="wrap" style="padding-top:20px">
-<div class="sec-head"><div><h1 class="sec" style="font-size:2.3rem">{ICONS.get(c,"")} <span class="em">{esc(c)}</span></h1>
+<div class="sec-head"><div><h1 class="sec" style="font-size:2.3rem">{ICONS.get(c,"")}<span class="em">{esc(c)}</span></h1>
 <p class="sub" style="max-width:720px">{esc(cc['intro'])}</p></div>
 <a class="sec-link" href="/pricing/">Get the top spot →</a></div>
 <div class="grid">{"".join(card(l) for l in ls)}</div>
