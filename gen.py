@@ -173,7 +173,7 @@ home_body = f"""
 <div class="step reveal"><span class="n">02</span><b>We review &amp; publish</b><p>Every listing is checked by a human. No spam, no dead links, no AI-generated junk sites.</p></div>
 <div class="step reveal"><span class="n">03</span><b>Get discovered</b><p>Your own SEO page, a dofollow backlink, and visibility in the AI assistants that crawl this index.</p></div>
 </div></section>
-<section class="wrap"><div class="upsell reveal"><div class="upsell-in"><h3>Built an AI agent? Get it in front of buyers.</h3><p>Free listings are always open. Featured placement puts you at the top of your category and on this homepage — with a dofollow backlink — for a one-time $49.</p><a class="btn btn-gold" href="/pricing/">See pricing →</a></div></div></section>
+<section class="wrap"><div class="upsell reveal"><div class="upsell-in"><h3>🎉 Founding Member spots — free Featured placement, first 20 only</h3><p>Free listings are always open. For launch week, the first 20 agents get Featured placement (top of category + homepage) at no cost in exchange for a short testimonial — normally a one-time $49.</p><a class="btn btn-gold" href="/pricing/">Claim a founding spot →</a></div></div></section>
 <section class="wrap" id="all"><div class="sec-head"><div><h2 class="sec">The full <span class="em">index</span></h2><p class="sub">All {len(listings)} agents across {len(cat_names)} categories.</p></div></div>{all_secs}</section>
 <section class="wrap"><div class="sec-head"><div><h2 class="sec">Frequently asked <span class="em">questions</span></h2></div></div>{faq_html(HOME_FAQ)}</section>
 """
@@ -277,6 +277,7 @@ pricing_body = f"""
 <h1 class="sec" style="font-size:2.5rem">Get your agent <span class="em">discovered</span></h1>
 <p class="sub" style="margin:14px auto 0">Every listing includes a dofollow backlink. Payments are secured by Stripe. Featured &amp; Pro listings go live within 24 hours — or your money back.</p>
 </div>
+<div class="upsell reveal" style="margin-bottom:34px"><div class="upsell-in"><h3>🎉 Founding Member spots — free Featured placement, first 20 only</h3><p>We just launched. In exchange for a short testimonial and permission to use your logo, we'll give the first 20 agents top-of-category + homepage Featured placement at no cost — normally $49. Once 20 are claimed, this offer closes and Featured reverts to paid.</p><a class="btn btn-gold" href="mailto:{CONTACT}?subject=Founding Member spot&body=Agent name:%0AWebsite URL:%0ACategory:%0AOne-line testimonial about AgentIndexed (or why you'd want to be listed):" style="justify-content:center">Claim a founding spot →</a></div></div>
 <div class="price-grid">
 <div class="price"><h3>Basic Listing</h3><div class="amt">$0</div>
 <ul><li>Standard listing in your category</li><li>Dofollow backlink to your site</li><li>Reviewed within 5–7 days</li></ul>
