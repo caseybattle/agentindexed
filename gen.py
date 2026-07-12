@@ -102,7 +102,7 @@ def page(title, desc, body, canonical="", schema=None, noindex=False):
 <link rel="alternate" type="application/rss+xml" title="{SITE} — new AI agents" href="{DOMAIN}/feed.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236366f1'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>A</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2316a34a'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>A</text></svg>">
 {sc}{HEAD_EXTRA}
 </head>
 <body>
@@ -314,7 +314,7 @@ submit_body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> Submit</div>
 <section class="wrap" style="padding-top:20px;max-width:700px">
 <h1 class="sec" style="font-size:2.3rem">Submit your <span class="em">AI agent</span></h1>
-<p class="sub" style="margin-top:12px">Free listings are reviewed in 5–7 days. Want it live tomorrow at the top of the category? <a href="/pricing/" style="color:#a5b4fc;font-weight:600">Go Featured for $49 →</a></p>
+<p class="sub" style="margin-top:12px">Free listings are reviewed in 5–7 days. Want it live tomorrow at the top of the category? <a href="/pricing/" style="color:#86efac;font-weight:600">Go Featured for $49 →</a></p>
 <form id="subform" style="margin-top:10px">
 <label for="f-name">Agent name *</label><input required id="f-name" placeholder="e.g. AcmeAgent">
 <label for="f-url">Website URL *</label><input required id="f-url" type="url" placeholder="https://…">
@@ -349,7 +349,7 @@ thanks_body = f"""
 <section class="wrap prose" style="max-width:700px;padding-top:0">
 <div class="notice">✓ Your payment was processed securely by Stripe. A receipt is on its way to your inbox.</div>
 <h2>Send your listing details</h2>
-<p>Email the following to <a href="mailto:{CONTACT}?subject=Paid listing details" style="color:#a5b4fc;font-weight:600">{CONTACT}</a> (or simply reply to your Stripe receipt):</p>
+<p>Email the following to <a href="mailto:{CONTACT}?subject=Paid listing details" style="color:#86efac;font-weight:600">{CONTACT}</a> (or simply reply to your Stripe receipt):</p>
 <ul><li>Agent name</li><li>Website URL</li><li>Category (see the homepage list)</li><li>One-sentence description</li></ul>
 <p>Your placement goes live within 24 hours of receiving these details — guaranteed, or your money back. Questions? Just reply to the receipt.</p>
 <div style="margin-top:26px"><a class="btn btn-p" href="mailto:{CONTACT}?subject=Paid listing details&body=Agent name:%0AWebsite URL:%0ACategory:%0ADescription:">Send details now →</a></div>
@@ -367,7 +367,7 @@ about_body = f"""
 <h2>Curation policy</h2>
 <ul><li>Every submission is manually checked: working product, real website, accurate description.</li><li>We reject spam, dead links, misleading descriptions, and thin affiliate pages.</li><li>Paid placement buys position and visibility — never a listing that wouldn't be accepted for free.</li><li>Listings are periodically re-checked; dead tools get removed.</li></ul>
 <h2>Contact</h2>
-<p>Questions, corrections, partnership ideas: <a href="mailto:{CONTACT}" style="color:#a5b4fc">{CONTACT}</a></p>
+<p>Questions, corrections, partnership ideas: <a href="mailto:{CONTACT}" style="color:#86efac">{CONTACT}</a></p>
 </section>"""
 d=os.path.join(ROOT,"about");os.makedirs(d,exist_ok=True)
 open(os.path.join(d,"index.html"),"w").write(page(f"About — Our Curation Policy | {SITE}","How AgentIndexed curates AI agent listings: human review, honest categories, no pay-to-play search.",about_body,canonical="/about/"))
@@ -451,17 +451,17 @@ try:
     W,H=1200,630
     img=Image.new("RGB",(W,H),(4,6,12))
     glow=Image.new("RGB",(W,H),(4,6,12)); gd=ImageDraw.Draw(glow)
-    gd.ellipse([80,-220,620,240],fill=(52,48,160)); gd.ellipse([760,-160,1240,300],fill=(84,48,150)); gd.ellipse([420,470,900,900],fill=(16,70,90))
+    gd.ellipse([80,-220,620,240],fill=(16,74,42)); gd.ellipse([760,-160,1240,300],fill=(20,110,60)); gd.ellipse([420,470,900,900],fill=(10,60,45))
     img=Image.blend(img,glow.filter(ImageFilter.GaussianBlur(130)),0.85)
     d=ImageDraw.Draw(img)
     fb="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"; fr="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
     if os.path.exists(fb):
         f1=ImageFont.truetype(fb,86); f2=ImageFont.truetype(fr,34); f3=ImageFont.truetype(fb,30)
-        d.rounded_rectangle([497,150,553,206],radius=14,fill=(109,102,245))
+        d.rounded_rectangle([497,150,553,206],radius=14,fill=(22,163,74))
         d.polygon([(525,163),(541,193),(509,193)],fill=(255,255,255))
         t="AgentIndexed"; w=d.textlength(t,font=f1); d.text(((W-w)/2,240),t,font=f1,fill=(238,241,248))
         t2=f"The curated index of {len(listings)} AI agents, frameworks & tools"; w2=d.textlength(t2,font=f2); d.text(((W-w2)/2,360),t2,font=f2,fill=(152,162,184))
-        t3="agentindexed.com"; w3=d.textlength(t3,font=f3); d.text(((W-w3)/2,440),t3,font=f3,fill=(129,140,248))
+        t3="agentindexed.com"; w3=d.textlength(t3,font=f3); d.text(((W-w3)/2,440),t3,font=f3,fill=(74,222,128))
     img.save(os.path.join(ROOT,"og.png"),"PNG",optimize=True)
     print("og.png generated")
 except Exception as e:
