@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/trim-bash-output.py\"",
+            "timeout": 10,
+            "statusMessage": "capping command output"
+          }
+        ]
+      }
+    ]
+  },
+
+  "skillListingMaxDescChars": 600,
+
+  "skillOverrides": {
+    "algorithmic-art": "user-invocable-only",
+    "battlelabs-pdf": "user-invocable-only",
+    "battlelabs-reel-factory": "user-invocable-only",
+    "brand-guidelines": "user-invocable-only",
+    "canva-reel-editor": "user-invocable-only",
+    "canvas-design": "user-invocable-only",
+    "cli-anything": "user-invocable-only",
+    "cross-stitch-automation": "user-invocable-only",
+    "doc-coauthoring": "user-invocable-only",
+    "docx": "user-invocable-only",
+    "etsy-algorithm": "user-invocable-only",
+    "frameforge": "user-invocable-only",
+    "higgsfield-factory": "user-invocable-only",
+    "import-memory": "user-invocable-only",
+    "instagram-intel-scraper": "user-invocable-only",
+    "internal-comms": "user-invocable-only",
+    "marketing-psychology": "user-invocable-only",
+    "mcp-builder": "user-invocable-only",
+    "morning": "user-invocable-only",
+    "pdf": "user-invocable-only",
+    "pptx": "user-invocable-only",
+    "skill-creator": "user-invocable-only",
+    "skill-improver": "user-invocable-only",
+    "slack-gif-creator": "user-invocable-only",
+    "structured-memory": "user-invocable-only",
+    "supercontext-global-config": "user-invocable-only",
+    "the-council": "user-invocable-only",
+    "theme-factory": "user-invocable-only",
+    "web-artifacts-builder": "user-invocable-only",
+    "xlsx": "user-invocable-only"
+  },
+
+  "permissions": {
+    "allow": [
+      "Bash(python3 gen.py)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Read"
+    ]
+  }
+}
