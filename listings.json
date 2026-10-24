@@ -1506,5 +1506,24 @@
   "description": "Voice orchestration platform for multimodal AI agents with 50+ language support, workflow building, and enterprise integrations.",
   "featured": false,
   "plan": "free"
+ },
+ {
+  "slug": "nanoparse",
+  "name": "NanoParse",
+  "url": "https://nanoparse.app",
+  "category": "Infrastructure & Tooling",
+  "tags": [
+   "Markdown",
+   "API"
+  ],
+  "description": "Converts web pages into Markdown and adds structured source-quality signals for AI agents.",
+  "overview": "NanoParse extracts web-page content as Markdown for AI agents. Its Litmus output adds structured signals about the source, freshness, and type of page to help agents assess retrieved material.",
+  "use_cases": [
+   "Preparing web-page text for AI-agent context",
+   "Extracting Markdown for research workflows",
+   "Inspecting structured source-quality signals"
+  ],
+  "featured": false,
+  "plan": "free"
  }
 ]

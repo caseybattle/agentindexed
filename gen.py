@@ -10,12 +10,13 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(BASE, "agentindexed")
 SITE = "AgentIndexed"
 DOMAIN = "https://agentindexed.com"
-LIVE = "https://agentindexed.vercel.app"
+LIVE = DOMAIN
 CONTACT = "casbattle19@gmail.com"
 LINK_FEATURED = "https://buy.stripe.com/3cI28r4Wm0Z4bnS0T79oc0a"
 LINK_PRO = "https://buy.stripe.com/14A00j88yazEajOatH9oc0b"
 LINK_SPONSOR = "https://buy.stripe.com/3cI5kD60qazE2Rm8lz9oc0c"
 TODAY = date.today()
+LEGAL_UPDATED = date(2026, 7, 12)
 
 listings = json.load(open(os.path.join(BASE, "listings.json")))
 cats = {}
@@ -228,6 +229,9 @@ for c in cat_names:
 # ---------- AGENT DETAIL PAGES ----------
 for l in listings:
     c = l["category"]; cc = CC[c]
+    use_cases = l.get("use_cases", cc["uses"])
+    overview = l.get("overview", f"{l['name']} sits in the {c.lower()} category of the agent stack. {cc['intro']}")
+    use_case_intro = f"{l['name']} is used for: " if "use_cases" in l else "Tools in this category are commonly used for: "
     peers = [x for x in cats[c] if x["slug"] != l["slug"]]
     related = peers[:6]
     rel_html = "".join(card(x) for x in related)
@@ -235,7 +239,7 @@ for l in listings:
     fb = '<span class="badge" style="position:static;margin-left:12px;vertical-align:middle">★ Featured</span>' if l["featured"] else ""
     agent_faq = [
       (f"What is {l['name']}?", f"{l['name']} is a tool in the {c.lower()} category. {l['description']}"),
-      (f"What is {l['name']} used for?", f"Tools in this category are commonly used for: "+ "; ".join(cc["uses"]).lower()+"."),
+      (f"What is {l['name']} used for?", use_case_intro + "; ".join(use_cases).lower()+"."),
       (f"What are alternatives to {l['name']}?", f"Popular alternatives in the {c.lower()} category include {alt_names}. Compare them all on the {c} category page."),
     ]
     schema = [
@@ -261,8 +265,8 @@ for l in listings:
 <a class="btn btn-p" href="{esc(l['url'])}" target="_blank" rel="noopener">Visit {esc(l['name'])} ↗</a>
 <a class="btn btn-o" href="/categories/{cslug(c)}/">More {esc(c)}</a>
 </div>
-<div class="prose"><h2>What {esc(l['name'])} is for</h2><p>{esc(l['name'])} sits in the {esc(c.lower())} category of the agent stack. {esc(cc['intro'])}</p>
-<h2>Typical use cases</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in cc["uses"])}</ul></div>
+<div class="prose"><h2>What {esc(l['name'])} is for</h2><p>{esc(overview)}</p>
+<h2>Typical use cases</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in use_cases)}</ul></div>
 <div class="claim"><b>Is this your agent?</b><p>Claim this listing to update the description and upgrade to Featured or Pro placement. Email <a href="mailto:{CONTACT}?subject=Claim listing: {esc(l['name'])}">{CONTACT}</a> or <a href="/pricing/">see upgrade options</a>.</p></div>
 <div class="sec-head" style="margin-top:48px"><h2 class="sec">FAQ</h2></div>{faq_html(agent_faq)}
 <div class="sec-head" style="margin-top:48px"><h2 class="sec">Alternatives &amp; related in {esc(c)}</h2></div>
@@ -344,18 +348,19 @@ open(os.path.join(d,"index.html"),"w").write(page(f"Submit Your AI Agent — Fre
 # ---------- THANKS ----------
 thanks_body = f"""
 <div class="hero" style="padding-bottom:30px"><div class="orb orb-1"></div><div class="wrap">
-<h1>Payment received — <em>you're almost live</em></h1>
-<p class="lead">Thank you! One last step so we can publish your placement within 24 hours.</p></div></div>
+<h1>Next steps for <em>your listing</em></h1>
+<p class="lead">Completed checkout? Send your listing details so we can match your payment and review your placement.</p></div></div>
 <section class="wrap prose" style="max-width:700px;padding-top:0">
-<div class="notice">✓ Your payment was processed securely by Stripe. A receipt is on its way to your inbox.</div>
+<div class="notice">Check your Stripe confirmation or receipt to confirm checkout completed. Visiting this page alone does not confirm payment. We verify successful payment in Stripe before publishing.</div>
 <h2>Send your listing details</h2>
-<p>Email the following to <a href="mailto:{CONTACT}?subject=Paid listing details" style="color:#86efac;font-weight:600">{CONTACT}</a> (or simply reply to your Stripe receipt):</p>
-<ul><li>Agent name</li><li>Website URL</li><li>Category (see the homepage list)</li><li>One-sentence description</li></ul>
-<p>Your placement goes live within 24 hours of receiving these details — guaranteed, or your money back. Questions? Just reply to the receipt.</p>
-<div style="margin-top:26px"><a class="btn btn-p" href="mailto:{CONTACT}?subject=Paid listing details&body=Agent name:%0AWebsite URL:%0ACategory:%0ADescription:">Send details now →</a></div>
+<p>Email the following to <a href="mailto:{CONTACT}?subject=Paid listing details" style="color:#86efac;font-weight:600">{CONTACT}</a>:</p>
+<ul><li>Agent name</li><li>Website URL</li><li>Category (see the homepage list)</li><li>One-sentence description</li><li>Email used at checkout and your Stripe receipt reference</li></ul>
+<p>Do not send card details, passwords, or verification codes.</p>
+<p>Publication is manual: we match your details to the successful Stripe payment, review the listing, and publish it. Once payment is confirmed and complete eligible listing details are received, your paid placement goes live within 24 hours under our published money-back guarantee. We will email your listing link when it is live.</p>
+<div style="margin-top:26px"><a class="btn btn-p" href="mailto:{CONTACT}?subject=Paid listing details&body=Agent name:%0AWebsite URL:%0ACategory:%0ADescription:%0ACheckout email:%0AStripe receipt reference:">Send details now →</a></div>
 </section>"""
 d=os.path.join(ROOT,"thanks");os.makedirs(d,exist_ok=True)
-open(os.path.join(d,"index.html"),"w").write(page(f"Thanks — Next Steps | {SITE}","Payment received. Send your listing details to go live within 24 hours.",thanks_body,canonical="/thanks/",noindex=True))
+open(os.path.join(d,"index.html"),"w").write(page(f"Thanks — Next Steps | {SITE}","Complete your listing details for manual payment verification, review, and publication.",thanks_body,canonical="/thanks/",noindex=True))
 
 # ---------- ABOUT ----------
 about_body = f"""
@@ -375,7 +380,7 @@ open(os.path.join(d,"index.html"),"w").write(page(f"About — Our Curation Polic
 # ---------- LEGAL ----------
 def legal_page(slug,title,body_html,desc):
     d=os.path.join(ROOT,slug);os.makedirs(d,exist_ok=True)
-    open(os.path.join(d,"index.html"),"w").write(page(f"{title} | {SITE}",desc,f'<div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {title}</div><section class="wrap prose legal" style="padding-top:24px;max-width:760px"><h1 class="sec" style="font-size:2rem">{title}</h1><p class="sub">Last updated: {TODAY.strftime("%B %d, %Y")}</p>{body_html}</section>',canonical=f"/{slug}/"))
+    open(os.path.join(d,"index.html"),"w").write(page(f"{title} | {SITE}",desc,f'<div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {title}</div><section class="wrap prose legal" style="padding-top:24px;max-width:760px"><h1 class="sec" style="font-size:2rem">{title}</h1><p class="sub">Last updated: {LEGAL_UPDATED.strftime("%B %d, %Y")}</p>{body_html}</section>',canonical=f"/{slug}/"))
 
 legal_page("terms","Terms of Service",f"""
 <h2>The service</h2><p>{SITE} is a curated directory of third-party AI tools. We list, describe, and link to products we do not own or operate. Listings are informational — we make no warranty about any listed product's quality, security, or fitness for your purpose.</p>
