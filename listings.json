@@ -1525,5 +1525,62 @@
   ],
   "featured": false,
   "plan": "free"
+ },
+ {
+  "slug": "jobfinder-ai",
+  "name": "JobFinder AI",
+  "url": "https://www.jobfinder-ai.com",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Job Search",
+   "Applications"
+  ],
+  "description": "Helps job seekers find openings, prepare applications, draft hiring outreach, and track follow-ups.",
+  "overview": "JobFinder AI brings job discovery, application preparation, hiring outreach, and follow-up tracking into a job-search workflow.",
+  "use_cases": [
+   "Finding job openings to review",
+   "Preparing job applications and hiring outreach",
+   "Tracking applications and follow-ups"
+  ],
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "dooza-crew",
+  "name": "Dooza Crew",
+  "url": "https://crew.dooza.ai",
+  "category": "Consumer Platforms",
+  "tags": [
+   "Assistant",
+   "Browser"
+  ],
+  "description": "A chat-based assistant that delegates tasks to agents with their own browser, files, and workspace.",
+  "overview": "Dooza Crew uses a chat interface to coordinate assistants that work with a browser, files, and a workspace. Users describe tasks and review the work produced by the crew.",
+  "use_cases": [
+   "Delegating browser-based tasks through chat",
+   "Preparing research and written work",
+   "Coordinating tasks across agent workspaces"
+  ],
+  "featured": false,
+  "plan": "free"
+ },
+ {
+  "slug": "ai-for-database",
+  "name": "AI for Database",
+  "url": "https://www.aifordatabase.com",
+  "category": "No-Code Builders",
+  "tags": [
+   "Database",
+   "Analytics"
+  ],
+  "description": "Lets teams query databases in natural language and create dashboards, reports, and alerts.",
+  "overview": "AI for Database provides a natural-language interface for asking questions of database data. Teams can use the results to create dashboards, reports, and alerts.",
+  "use_cases": [
+   "Asking database questions in natural language",
+   "Creating dashboards and reports from query results",
+   "Setting up alerts for changes in data"
+  ],
+  "featured": false,
+  "plan": "free"
  }
 ]
