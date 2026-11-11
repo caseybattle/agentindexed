@@ -46,22 +46,42 @@
 <label for="f-cat">Category *</label><select id="f-cat"><option>Browser &amp; Computer Use</option><option>Coding Agents</option><option>Consumer Platforms</option><option>Creative Agents</option><option>Customer Support &amp; CRM</option><option>Frameworks &amp; SDKs</option><option>Industry Agents</option><option>Infrastructure &amp; Tooling</option><option>Memory &amp; Context</option><option>No-Code Builders</option><option>Research Agents</option><option>Safety &amp; Observability</option><option>Voice Agents</option></select>
 <label for="f-desc">One-sentence description *</label><textarea required id="f-desc" rows="3" maxlength="200" placeholder="What does it do, for whom?"></textarea>
 <label for="f-email">Your email *</label><input required id="f-email" type="email" placeholder="you@company.com">
-<label for="f-plan">Plan</label><select id="f-plan"><option value="free">Basic — Free</option><option value="featured">Featured — $49 one-time</option><option value="pro">Pro — $19/month</option></select>
-<div style="margin-top:26px"><button class="btn btn-p" type="submit">Submit listing →</button></div>
+<label for="f-plan">Plan</label><select id="f-plan"><option value="free">Basic — Free</option><option value="featured">Featured — $49 one-time</option><option value="pro">Pro — $19/month</option><option value="sponsor">Homepage Sponsor — $99/month</option></select>
+<div style="margin-top:26px"><button class="btn btn-p" id="subbtn" type="submit">Submit listing →</button></div>
 <p class="sub" id="submsg" style="margin-top:16px"></p>
 </form>
 </section>
 <script>
-document.getElementById('subform').addEventListener('submit',function(e){
+(function(){
+var CFG={"leads": "", "contact": "casbattle19@gmail.com", "site": "AgentIndexed", "links": {"featured": "https://buy.stripe.com/3cI28r4Wm0Z4bnS0T79oc0a", "pro": "https://buy.stripe.com/14A00j88yazEajOatH9oc0b", "sponsor": "https://buy.stripe.com/3cI5kD60qazE2Rm8lz9oc0c"}};
+var f=document.getElementById('subform'),sel=document.getElementById('f-plan'),btn=document.getElementById('subbtn'),msg=document.getElementById('submsg');
+var p=new URLSearchParams(location.search).get('plan');
+if(p&&CFG.links.hasOwnProperty(p)||p==='free'){sel.value=p;}
+function label(){btn.textContent=sel.value==='free'?'Submit listing \u2192':'Continue to secure payment \u2192';}
+sel.addEventListener('change',label);label();
+function v(id){return document.getElementById(id).value.trim();}
+f.addEventListener('submit',function(e){
 e.preventDefault();
-var plan=document.getElementById('f-plan').value,em=document.getElementById('f-email').value,nm=document.getElementById('f-name').value;
-var ref=nm.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40)||'listing';
-var b='Agent: '+nm+'%0AURL: '+encodeURIComponent(document.getElementById('f-url').value)+'%0ACategory: '+document.getElementById('f-cat').value+'%0ADescription: '+encodeURIComponent(document.getElementById('f-desc').value)+'%0AContact: '+em+'%0APlan: '+plan;
-window.location.href='mailto:casbattle19@gmail.com?subject='+encodeURIComponent('[AgentIndexed] New submission: '+nm)+'&body='+b;
-if(plan==='featured'){setTimeout(function(){window.open('https://buy.stripe.com/3cI28r4Wm0Z4bnS0T79oc0a?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+ref,'_blank')},800);document.getElementById('submsg').innerHTML='Almost done — complete the $49 Featured payment in the tab that just opened, and send the pre-filled email so we can match your listing.'}
-else if(plan==='pro'){setTimeout(function(){window.open('https://buy.stripe.com/14A00j88yazEajOatH9oc0b?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+ref,'_blank')},800);document.getElementById('submsg').innerHTML='Almost done — complete the $19/mo Pro payment in the tab that just opened, and send the pre-filled email so we can match your listing.'}
-else{document.getElementById('submsg').innerHTML='Thanks! Your email client opened with the submission — hit send and we\'ll review within 5–7 days.'}
+var plan=sel.value,em=v('f-email'),nm=v('f-name');
+var ref=(nm.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40))||'listing';
+var data={plan:plan,name:nm,url:v('f-url'),category:v('f-cat'),description:v('f-desc'),email:em,page:location.pathname+location.search,ref:ref};
+btn.disabled=true;btn.textContent='Saving\u2026';
+function next(saved){
+if(CFG.links[plan]){location.href=CFG.links[plan]+'?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+encodeURIComponent(ref);return;}
+if(saved){msg.innerHTML='Thanks! Your submission is in. We review free listings within 5\u20137 days and will email you when it\'s live.';btn.textContent='Submitted \u2713';return;}
+var b='Agent: '+nm+'%0AURL: '+encodeURIComponent(data.url)+'%0ACategory: '+encodeURIComponent(data.category)+'%0ADescription: '+encodeURIComponent(data.description)+'%0AContact: '+encodeURIComponent(em)+'%0APlan: '+plan;
+location.href='mailto:'+CFG.contact+'?subject='+encodeURIComponent('['+CFG.site+'] New submission: '+nm)+'&body='+b;
+msg.innerHTML='Your email app opened with the submission \u2014 hit send and we\'ll review within 5\u20137 days.';btn.disabled=false;label();
+}
+if(!CFG.leads){next(false);return;}
+var done=false;function finish(ok){if(!done){done=true;next(ok);}}
+try{
+fetch(CFG.leads,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)})
+.then(function(){finish(true);},function(){finish(false);});
+setTimeout(function(){finish(false);},5000);
+}catch(err){finish(false);}
 });
+})();
 </script>
 <footer><div class="wrap foot">
 <div style="max-width:300px"><div class="brand">▲ AgentIndexed</div>The curated index of AI agents. Hand-reviewed listings, honest categories, zero fluff — built for people who ship.<br><br>© 2026 AgentIndexed</div>

@@ -15,8 +15,12 @@ CONTACT = "casbattle19@gmail.com"
 LINK_FEATURED = "https://buy.stripe.com/3cI28r4Wm0Z4bnS0T79oc0a"
 LINK_PRO = "https://buy.stripe.com/14A00j88yazEajOatH9oc0b"
 LINK_SPONSOR = "https://buy.stripe.com/3cI5kD60qazE2Rm8lz9oc0c"
+# Lead capture endpoint (api/lead.js → private Vercel Blob store). Every submit and every paid-plan
+# click is saved here before the visitor goes to Stripe. Owner view: /api/leads?key=LEADS_ADMIN_KEY.
+# Set LEADS_URL="" to fall back to the old mailto-only behaviour.
+LEADS_URL = os.environ.get("LEADS_URL", "/api/lead").strip()
 TODAY = date.today()
-LEGAL_UPDATED = date(2026, 7, 12)
+LEGAL_UPDATED = date(2026, 11, 11)
 
 listings = json.load(open(os.path.join(BASE, "listings.json")))
 cats = {}
@@ -299,13 +303,13 @@ pricing_body = f"""
 <a class="btn btn-o" href="/submit/" style="justify-content:center">Submit free →</a></div>
 <div class="price hot"><span class="pop">Most popular</span><h3>Featured Listing</h3><div class="amt">$49 <small>one-time</small></div>
 <ul><li>Top of your category for 12 months</li><li>Homepage featured section</li><li>★ Featured badge</li><li>Dofollow backlink</li><li>Priority 24-hour review</li></ul>
-<a class="btn btn-p" href="{LINK_FEATURED}" style="justify-content:center">Get Featured — $49</a></div>
+<a class="btn btn-p" href="/submit/?plan=featured" style="justify-content:center">Get Featured — $49</a></div>
 <div class="price"><h3>Pro Listing</h3><div class="amt">$19 <small>/month</small></div>
 <ul><li>Everything in Featured</li><li>Permanent top placement</li><li>Listing updates any time</li><li>Launch &amp; update re-promotion</li><li>Cancel anytime</li></ul>
-<a class="btn btn-o" href="{LINK_PRO}" style="justify-content:center">Go Pro — $19/mo</a></div>
+<a class="btn btn-o" href="/submit/?plan=pro" style="justify-content:center">Go Pro — $19/mo</a></div>
 <div class="price"><h3>Homepage Sponsor</h3><div class="amt">$99 <small>/month</small></div>
 <ul><li>Exclusive banner on every page</li><li>Your logo, tagline &amp; link</li><li>Only one sponsor at a time</li><li>Cancel anytime</li></ul>
-<a class="btn btn-gold" href="{LINK_SPONSOR}" style="justify-content:center">Claim sponsor slot</a></div>
+<a class="btn btn-gold" href="/submit/?plan=sponsor" style="justify-content:center">Claim sponsor slot</a></div>
 </div>
 <div class="sec-head" style="margin-top:44px"><h2 class="sec">Pricing FAQ</h2></div>{faq_html(pricing_faq)}
 </section>"""
@@ -313,6 +317,42 @@ d=os.path.join(ROOT,"pricing");os.makedirs(d,exist_ok=True)
 open(os.path.join(d,"index.html"),"w").write(page(f"Pricing — Feature Your AI Agent | {SITE}","List your AI agent free, or get featured placement with a dofollow backlink from $49. 24-hour review, 7-day money-back guarantee.",pricing_body,canonical="/pricing/",schema=[faq_schema(pricing_faq),crumbs_schema([("Home","/"),("Pricing","/pricing/")])]))
 
 # ---------- SUBMIT ----------
+# Every submission (free or paid) is saved to LEADS_URL (/api/lead) *before* anything else happens, so the email is
+# captured even if the visitor abandons Stripe checkout. Paid plans then go to Stripe in the same tab
+# (no pop-up to block) with the email pre-filled.
+SUBMIT_JS = """
+(function(){
+var CFG=__CFG__;
+var f=document.getElementById('subform'),sel=document.getElementById('f-plan'),btn=document.getElementById('subbtn'),msg=document.getElementById('submsg');
+var p=new URLSearchParams(location.search).get('plan');
+if(p&&CFG.links.hasOwnProperty(p)||p==='free'){sel.value=p;}
+function label(){btn.textContent=sel.value==='free'?'Submit listing \\u2192':'Continue to secure payment \\u2192';}
+sel.addEventListener('change',label);label();
+function v(id){return document.getElementById(id).value.trim();}
+f.addEventListener('submit',function(e){
+e.preventDefault();
+var plan=sel.value,em=v('f-email'),nm=v('f-name');
+var ref=(nm.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40))||'listing';
+var data={plan:plan,name:nm,url:v('f-url'),category:v('f-cat'),description:v('f-desc'),email:em,page:location.pathname+location.search,ref:ref,company_website:v('f-hp')};
+btn.disabled=true;btn.textContent='Saving\\u2026';
+function next(saved){
+if(CFG.links[plan]){location.href=CFG.links[plan]+'?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+encodeURIComponent(ref);return;}
+if(saved){msg.innerHTML='Thanks! Your submission is in. We review free listings within 5\\u20137 days and will email you when it\\'s live.';btn.textContent='Submitted \\u2713';return;}
+var b='Agent: '+nm+'%0AURL: '+encodeURIComponent(data.url)+'%0ACategory: '+encodeURIComponent(data.category)+'%0ADescription: '+encodeURIComponent(data.description)+'%0AContact: '+encodeURIComponent(em)+'%0APlan: '+plan;
+location.href='mailto:'+CFG.contact+'?subject='+encodeURIComponent('['+CFG.site+'] New submission: '+nm)+'&body='+b;
+msg.innerHTML='Your email app opened with the submission \\u2014 hit send and we\\'ll review within 5\\u20137 days.';btn.disabled=false;label();
+}
+if(!CFG.leads){next(false);return;}
+var done=false;function finish(ok){if(!done){done=true;next(ok);}}
+try{
+fetch(CFG.leads,{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+.then(function(r){finish(r.ok);},function(){finish(false);});
+setTimeout(function(){finish(false);},5000);
+}catch(err){finish(false);}
+});
+})();
+""".replace("__CFG__", json.dumps({"leads": LEADS_URL, "contact": CONTACT, "site": SITE,
+    "links": {"featured": LINK_FEATURED, "pro": LINK_PRO, "sponsor": LINK_SPONSOR}}))
 cat_opts="".join(f'<option>{esc(c)}</option>' for c in sorted(cats.keys()))
 submit_body = f"""
 <div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> Submit</div>
@@ -325,23 +365,13 @@ submit_body = f"""
 <label for="f-cat">Category *</label><select id="f-cat">{cat_opts}</select>
 <label for="f-desc">One-sentence description *</label><textarea required id="f-desc" rows="3" maxlength="200" placeholder="What does it do, for whom?"></textarea>
 <label for="f-email">Your email *</label><input required id="f-email" type="email" placeholder="you@company.com">
-<label for="f-plan">Plan</label><select id="f-plan"><option value="free">Basic — Free</option><option value="featured">Featured — $49 one-time</option><option value="pro">Pro — $19/month</option></select>
-<div style="margin-top:26px"><button class="btn btn-p" type="submit">Submit listing →</button></div>
+<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="f-hp">Company website</label><input id="f-hp" tabindex="-1" autocomplete="off"></div>
+<label for="f-plan">Plan</label><select id="f-plan"><option value="free">Basic — Free</option><option value="featured">Featured — $49 one-time</option><option value="pro">Pro — $19/month</option><option value="sponsor">Homepage Sponsor — $99/month</option></select>
+<div style="margin-top:26px"><button class="btn btn-p" id="subbtn" type="submit">Submit listing →</button></div>
 <p class="sub" id="submsg" style="margin-top:16px"></p>
 </form>
 </section>
-<script>
-document.getElementById('subform').addEventListener('submit',function(e){{
-e.preventDefault();
-var plan=document.getElementById('f-plan').value,em=document.getElementById('f-email').value,nm=document.getElementById('f-name').value;
-var ref=nm.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40)||'listing';
-var b='Agent: '+nm+'%0AURL: '+encodeURIComponent(document.getElementById('f-url').value)+'%0ACategory: '+document.getElementById('f-cat').value+'%0ADescription: '+encodeURIComponent(document.getElementById('f-desc').value)+'%0AContact: '+em+'%0APlan: '+plan;
-window.location.href='mailto:{CONTACT}?subject='+encodeURIComponent('[{SITE}] New submission: '+nm)+'&body='+b;
-if(plan==='featured'){{setTimeout(function(){{window.open('{LINK_FEATURED}?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+ref,'_blank')}},800);document.getElementById('submsg').innerHTML='Almost done — complete the $49 Featured payment in the tab that just opened, and send the pre-filled email so we can match your listing.'}}
-else if(plan==='pro'){{setTimeout(function(){{window.open('{LINK_PRO}?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+ref,'_blank')}},800);document.getElementById('submsg').innerHTML='Almost done — complete the $19/mo Pro payment in the tab that just opened, and send the pre-filled email so we can match your listing.'}}
-else{{document.getElementById('submsg').innerHTML='Thanks! Your email client opened with the submission — hit send and we\\'ll review within 5–7 days.'}}
-}});
-</script>"""
+<script>{SUBMIT_JS}</script>"""
 d=os.path.join(ROOT,"submit");os.makedirs(d,exist_ok=True)
 open(os.path.join(d,"index.html"),"w").write(page(f"Submit Your AI Agent — Free & Featured Listings | {SITE}","Submit your AI agent to AgentIndexed. Free basic listings with dofollow backlink, or featured placement from $49 with 24-hour review.",submit_body,canonical="/submit/",schema=[crumbs_schema([("Home","/"),("Submit","/submit/")])]))
 
@@ -390,7 +420,7 @@ legal_page("terms","Terms of Service",f"""
 <h2>Contact</h2><p>{CONTACT}</p>""","Terms of service for the AgentIndexed directory.")
 
 legal_page("privacy","Privacy Policy",f"""
-<h2>What we collect</h2><p>This is a static website. We do not set tracking cookies or run third-party ad trackers. If you submit a listing, we receive the details you email us (name, URL, description, your email) and use them solely to publish and manage the listing.</p>
+<h2>What we collect</h2><p>This is a static website. We do not set tracking cookies or run third-party ad trackers. If you submit a listing or start a paid checkout, we store the details you enter in our form (agent name, URL, category, description, chosen plan, your email) in private storage and use them solely to publish and manage the listing and to follow up about your submission or an unfinished checkout.</p>
 <h2>Payments</h2><p>Payments are processed entirely by Stripe. We never see or store your card details. Stripe's privacy policy governs payment data.</p>
 <h2>Analytics</h2><p>We may use privacy-respecting, cookie-free page analytics (Vercel Web Analytics) to count visits. No personal profiles are built.</p>
 <h2>Your rights</h2><p>Email {CONTACT} to request removal of your listing or any personal data we hold about you. We respond within 7 days.</p>""","Privacy policy for AgentIndexed. No tracking cookies, Stripe-handled payments.")
