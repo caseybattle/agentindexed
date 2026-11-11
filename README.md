@@ -21,3 +21,13 @@ Every push to `main` triggers a Vercel build: `pip3 install pillow && python3 ge
 ## Revenue
 
 Stripe payment links (Featured $49 one-time, Pro $19/mo, Homepage Sponsor $99/mo) are configured in `gen.py`.
+
+## Lead capture
+
+Every Submit and every Featured / Pro / Sponsor click saves the visitor's email **before** they go to Stripe,
+so abandoned checkouts can still be followed up.
+
+- `api/lead.js` — `POST /api/lead` stores each lead as a private file in the Vercel Blob store
+  `agentindexed-leads` (Vercel → Storage). `GET /api/lead?check=1` shows whether the store is connected.
+- `api/leads.js` — owner view at `/api/leads?key=…` (needs env var `LEADS_ADMIN_KEY`); add `&format=csv` to download.
+  Without that variable, browse the leads in Vercel → Storage → agentindexed-leads.

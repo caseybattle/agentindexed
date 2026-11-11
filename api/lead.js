@@ -7,6 +7,12 @@ const PLANS = new Set(['free', 'featured', 'pro', 'sponsor']);
 const clip = (v, n = 500) => String(v ?? '').trim().slice(0, n);
 
 export default async function handler(req, res) {
+  // GET /api/lead?check=1 → { storage: true|false } so the owner can confirm the Blob store is connected
+  // (reports only whether a credential is present, never its value).
+  if (req.method === 'GET' && req.query && req.query.check === '1') {
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(200).json({ storage: Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) });
+  }
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ ok: false }); }
   let d = req.body;
   if (typeof d === 'string') { try { d = JSON.parse(d); } catch { d = {}; } }
