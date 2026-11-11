@@ -15,10 +15,10 @@ CONTACT = "casbattle19@gmail.com"
 LINK_FEATURED = "https://buy.stripe.com/3cI28r4Wm0Z4bnS0T79oc0a"
 LINK_PRO = "https://buy.stripe.com/14A00j88yazEajOatH9oc0b"
 LINK_SPONSOR = "https://buy.stripe.com/3cI5kD60qazE2Rm8lz9oc0c"
-# Lead capture: Google Apps Script web-app URL that appends each submit/buy click to a Google Sheet
-# and emails CONTACT. Set LEADS_URL in Vercel → Project → Settings → Environment Variables.
-# When empty, the submit form falls back to the old mailto behaviour.
-LEADS_URL = os.environ.get("LEADS_URL", "").strip()
+# Lead capture endpoint (api/lead.js → private Vercel Blob store). Every submit and every paid-plan
+# click is saved here before the visitor goes to Stripe. Owner view: /api/leads?key=LEADS_ADMIN_KEY.
+# Set LEADS_URL="" to fall back to the old mailto-only behaviour.
+LEADS_URL = os.environ.get("LEADS_URL", "/api/lead").strip()
 TODAY = date.today()
 LEGAL_UPDATED = date(2026, 11, 11)
 
@@ -317,7 +317,7 @@ d=os.path.join(ROOT,"pricing");os.makedirs(d,exist_ok=True)
 open(os.path.join(d,"index.html"),"w").write(page(f"Pricing — Feature Your AI Agent | {SITE}","List your AI agent free, or get featured placement with a dofollow backlink from $49. 24-hour review, 7-day money-back guarantee.",pricing_body,canonical="/pricing/",schema=[faq_schema(pricing_faq),crumbs_schema([("Home","/"),("Pricing","/pricing/")])]))
 
 # ---------- SUBMIT ----------
-# Every submission (free or paid) is saved to LEADS_URL *before* anything else happens, so the email is
+# Every submission (free or paid) is saved to LEADS_URL (/api/lead) *before* anything else happens, so the email is
 # captured even if the visitor abandons Stripe checkout. Paid plans then go to Stripe in the same tab
 # (no pop-up to block) with the email pre-filled.
 SUBMIT_JS = """
@@ -333,7 +333,7 @@ f.addEventListener('submit',function(e){
 e.preventDefault();
 var plan=sel.value,em=v('f-email'),nm=v('f-name');
 var ref=(nm.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40))||'listing';
-var data={plan:plan,name:nm,url:v('f-url'),category:v('f-cat'),description:v('f-desc'),email:em,page:location.pathname+location.search,ref:ref};
+var data={plan:plan,name:nm,url:v('f-url'),category:v('f-cat'),description:v('f-desc'),email:em,page:location.pathname+location.search,ref:ref,company_website:v('f-hp')};
 btn.disabled=true;btn.textContent='Saving\\u2026';
 function next(saved){
 if(CFG.links[plan]){location.href=CFG.links[plan]+'?prefilled_email='+encodeURIComponent(em)+'&client_reference_id='+encodeURIComponent(ref);return;}
@@ -345,8 +345,8 @@ msg.innerHTML='Your email app opened with the submission \\u2014 hit send and we
 if(!CFG.leads){next(false);return;}
 var done=false;function finish(ok){if(!done){done=true;next(ok);}}
 try{
-fetch(CFG.leads,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)})
-.then(function(){finish(true);},function(){finish(false);});
+fetch(CFG.leads,{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+.then(function(r){finish(r.ok);},function(){finish(false);});
 setTimeout(function(){finish(false);},5000);
 }catch(err){finish(false);}
 });
@@ -365,6 +365,7 @@ submit_body = f"""
 <label for="f-cat">Category *</label><select id="f-cat">{cat_opts}</select>
 <label for="f-desc">One-sentence description *</label><textarea required id="f-desc" rows="3" maxlength="200" placeholder="What does it do, for whom?"></textarea>
 <label for="f-email">Your email *</label><input required id="f-email" type="email" placeholder="you@company.com">
+<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="f-hp">Company website</label><input id="f-hp" tabindex="-1" autocomplete="off"></div>
 <label for="f-plan">Plan</label><select id="f-plan"><option value="free">Basic — Free</option><option value="featured">Featured — $49 one-time</option><option value="pro">Pro — $19/month</option><option value="sponsor">Homepage Sponsor — $99/month</option></select>
 <div style="margin-top:26px"><button class="btn btn-p" id="subbtn" type="submit">Submit listing →</button></div>
 <p class="sub" id="submsg" style="margin-top:16px"></p>
@@ -419,7 +420,7 @@ legal_page("terms","Terms of Service",f"""
 <h2>Contact</h2><p>{CONTACT}</p>""","Terms of service for the AgentIndexed directory.")
 
 legal_page("privacy","Privacy Policy",f"""
-<h2>What we collect</h2><p>This is a static website. We do not set tracking cookies or run third-party ad trackers. If you submit a listing or start a paid checkout, we store the details you enter in our form (agent name, URL, category, description, chosen plan, your email) in a private spreadsheet and use them solely to publish and manage the listing and to follow up about your submission or an unfinished checkout.</p>
+<h2>What we collect</h2><p>This is a static website. We do not set tracking cookies or run third-party ad trackers. If you submit a listing or start a paid checkout, we store the details you enter in our form (agent name, URL, category, description, chosen plan, your email) in private storage and use them solely to publish and manage the listing and to follow up about your submission or an unfinished checkout.</p>
 <h2>Payments</h2><p>Payments are processed entirely by Stripe. We never see or store your card details. Stripe's privacy policy governs payment data.</p>
 <h2>Analytics</h2><p>We may use privacy-respecting, cookie-free page analytics (Vercel Web Analytics) to count visits. No personal profiles are built.</p>
 <h2>Your rights</h2><p>Email {CONTACT} to request removal of your listing or any personal data we hold about you. We respond within 7 days.</p>""","Privacy policy for AgentIndexed. No tracking cookies, Stripe-handled payments.")
