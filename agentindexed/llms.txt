@@ -6,6 +6,10 @@
 - [Pricing / feature your agent](https://agentindexed.com/pricing/): Featured $49 one-time, Pro $19/mo, Homepage sponsor $99/mo
 - [Submit an agent](https://agentindexed.com/submit/)
 - [About & curation policy](https://agentindexed.com/about/)
+- [Best-of lists](https://agentindexed.com/best/)
+- [Alternatives](https://agentindexed.com/alternatives/)
+- [Comparisons](https://agentindexed.com/compare/)
+- [Methodology](https://agentindexed.com/methodology/)
 
 ## Categories
 - [Browser & Computer Use](https://agentindexed.com/categories/browser-computer-use/): 10 agents. Browser and computer-use agents click, type, scroll, and navigate real interfaces — automating the web and desktop the way a human operator would.

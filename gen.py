@@ -79,208 +79,438 @@ JS = open(os.path.join(BASE, "assets", "search.js")).read()
 
 HEAD_EXTRA = '<script defer src="/_vercel/insights/script.js"></script>'
 
-def page(title, desc, body, canonical="", schema=None, noindex=False):
-    robots = '<meta name="robots" content="noindex,nofollow">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">'
+MARK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19 12 5l8 14"/><path d="M8 13h8"/></svg>'
+FONTS = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+
+def page(title, desc, body, canonical="", schema=None, noindex=False, og_type="website", crumbs=None):
+    robots = '<meta name="robots" content="noindex,nofollow">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
+    if crumbs and not noindex:
+        schema = list(schema or []) + [crumbs_schema(crumbs)]
     sc = "".join(jld(s) for s in (schema or []))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}
 <link rel="canonical" href="{DOMAIN}{canonical}">
+<meta name="theme-color" content="#07080b">
+<meta name="color-scheme" content="dark">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{og_type}">
 <meta property="og:url" content="{DOMAIN}{canonical}">
 <meta property="og:site_name" content="{SITE}">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="{DOMAIN}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{SITE}: the curated directory of AI agents">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{DOMAIN}/og.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://www.google.com">
-<link rel="alternate" type="application/rss+xml" title="{SITE} — new AI agents" href="{DOMAIN}/feed.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2316a34a'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>A</text></svg>">
+<link rel="stylesheet" href="{FONTS}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{FONTS}"></noscript>
+<link rel="alternate" type="application/rss+xml" title="{SITE}: new AI agents" href="{DOMAIN}/feed.xml">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/og.png">
 {sc}{HEAD_EXTRA}
 </head>
 <body>
-<div class="sponsor-bar">✦ This sponsor slot is available — put your AI product in front of every visitor. <a href="/pricing/">Become the sponsor →</a></div>
+<a class="skip" href="#main">Skip to content</a>
+<div class="sponsor-bar"><b>Sponsor slot open.</b> Put your AI product in front of every visitor.<a href="/pricing/#sponsor">Become the sponsor &rarr;</a></div>
 <header><div class="wrap nav">
-<a class="logo" href="/"><span class="dot">▲</span>Agent<span>Indexed</span></a>
+<a class="logo" href="/" aria-label="{SITE} home"><span class="mark">{MARK_SVG}</span>Agent<span>Indexed</span></a>
 <nav class="nav-links" aria-label="Main">
-<a href="/#categories">Categories</a><a href="/#categories">All Agents</a><a href="/pricing/">Pricing</a>
-<a class="btn btn-p" href="/submit/">Submit Agent</a>
+<a href="/categories/">Categories</a><a href="/best/">Best of</a><a href="/compare/">Compare</a><a href="/pricing/">Pricing</a>
+<a class="btn btn-p btn-sm" href="/submit/">Submit agent</a>
 </nav>
 </div></header>
+<main id="main">
 {body}
-<footer><div class="wrap foot">
-<div style="max-width:300px"><div class="brand">▲ {SITE}</div>The curated index of AI agents. Hand-reviewed listings, honest categories, zero fluff — built for people who ship.<br><br>© {TODAY.year} {SITE}</div>
+</main>
+<footer><div class="wrap">
+<div class="foot">
+<div style="max-width:320px"><div class="brand"><span class="logo"><span class="mark">{MARK_SVG}</span></span>{SITE}</div>The curated index of AI agents. Every listing is reviewed by a person, categories describe what a tool does, and search is never pay-to-play.</div>
 <div class="cols">
-<div><h4>Directory</h4><li><a href="/#categories">Categories</a></li><li><a href="/#categories">All agents</a></li><li><a href="/feed.xml">RSS feed</a></li><li><a href="/sitemap.xml">Sitemap</a></li></div>
-<div><h4>For builders</h4><li><a href="/submit/">Submit an agent</a></li><li><a href="/pricing/">Get featured</a></li><li><a href="/pricing/">Sponsorship</a></li></div>
-<div><h4>Company</h4><li><a href="/about/">About</a></li><li><a href="/terms/">Terms</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/refunds/">Refund policy</a></li><li><a href="mailto:{CONTACT}">Contact</a></li></div>
+<div><h4>Directory</h4><ul><li><a href="/categories/">All categories</a></li><li><a href="/best/">Best-of lists</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/alternatives/">Alternatives</a></li><li><a href="/feed.xml">RSS feed</a></li></ul></div>
+<div><h4>For builders</h4><ul><li><a href="/submit/">Submit an agent</a></li><li><a href="/pricing/">Get featured</a></li><li><a href="/pricing/#sponsor">Sponsorship</a></li><li><a href="/methodology/">How we review</a></li></ul></div>
+<div><h4>Company</h4><ul><li><a href="/about/">About</a></li><li><a href="/terms/">Terms</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/refunds/">Refund policy</a></li><li><a href="mailto:{CONTACT}">Contact</a></li></ul></div>
 </div>
+</div>
+<div class="foot-bottom"><span>&copy; {TODAY.year} {SITE}. Listings last reviewed {TODAY.strftime('%B %Y')}.</span><span><a href="/llms.txt">llms.txt</a> &middot; <a href="/sitemap.xml">Sitemap</a></span></div>
 </div></footer>
 <script src="/search.js" defer></script>
 </body></html>"""
 
-def card(l):
-    b = '<span class="badge">★ Featured</span>' if l["featured"] else ""
+def avatar(l, cls="card-logo", sz=64):
+    ini = esc(l["name"][:1].upper())
+    return f"""<div class="{cls}" aria-hidden="true"><img src="{logo(l,sz)}" alt="" loading="lazy" decoding="async" width="24" height="24" onerror="this.parentNode.textContent='{ini}'"></div>"""
+
+def card(l, note=""):
+    b = '<span class="badge">Featured</span>' if l["featured"] else ""
     fc = " is-featured" if l["featured"] else ""
-    tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in l["tags"])
-    return f"""<a class="card{fc} reveal" href="/agents/{l['slug']}/">{b}
-<div class="card-top"><div class="card-logo"><img src="{logo(l)}" alt="{esc(l['name'])} logo" loading="lazy" width="26" height="26" onerror="this.replaceWith('🤖')"></div>
-<div><span class="cat">{esc(l['category'])}</span><h3>{esc(l['name'])}</h3></div></div>
-<p>{esc(l['description'])}</p><div class="tags">{tags}<span class="go">View →</span></div></a>"""
+    tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in l["tags"][:3])
+    extra = f'<span class="tag" style="color:var(--accent-2);border-color:rgba(52,211,153,.3)">{esc(note)}</span>' if note else ""
+    return f"""<a class="card{fc}" href="/agents/{l['slug']}/">{b}
+<div class="card-top">{avatar(l)}
+<div><h3>{esc(l['name'])}</h3><span class="cat">{esc(l['category'])}</span></div></div>
+<p>{esc(l['description'])}</p><div class="tags">{extra}{tags}<span class="go">View &rarr;</span></div></a>"""
+
+def trim(s, n=155):
+    s = re.sub(r"\s+", " ", s).strip()
+    return s if len(s) <= n else s[:n-1].rsplit(" ", 1)[0].rstrip(",;:.") + "…"
+
+def links_html(items):  # [(label, href, meta)]
+    return '<div class="links">' + "".join(f'<a href="{h}">{esc(t)}<span>{esc(m)}</span></a>' for t, h, m in items) + "</div>"
+
+def app_schema(l):
+    dev = l["category"] in ("Coding Agents","Frameworks & SDKs","Infrastructure & Tooling","Safety & Observability","Memory & Context")
+    return {"@type":"SoftwareApplication","name":l["name"],"url":l["url"],"description":l["description"],
+            "applicationCategory":"DeveloperApplication" if dev else "BusinessApplication","applicationSubCategory":l["category"],
+            "keywords":", ".join(l["tags"]),"sameAs":l["url"]}
+
+def write(path, html_):
+    d = os.path.join(ROOT, *[p for p in path.strip("/").split("/") if p]); os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(html_)
 
 os.makedirs(ROOT, exist_ok=True)
 open(os.path.join(ROOT,"style.css"),"w").write(CSS)
 open(os.path.join(ROOT,"search.js"),"w").write(JS)
-idx = [{"n":l["name"],"s":l["slug"],"c":l["category"],"d":l["description"],"h":dom(l["url"])} for l in listings]
-json.dump(idx, open(os.path.join(ROOT,"search-index.json"),"w"))
+open(os.path.join(ROOT,"favicon.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#f2f3f5"/><path d="M8 24 16 9l8 15M11.5 18h9" fill="none" stroke="#07080b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+idx = [{"n":l["name"],"s":l["slug"],"c":l["category"],"d":l["description"],"h":dom(l["url"]),"t":" ".join(l["tags"])} for l in listings]
+json.dump(idx, open(os.path.join(ROOT,"search-index.json"),"w"), separators=(",",":"))
 featured = [l for l in listings if l["featured"]]
 cat_names = sorted(cats.keys())
+by_slug = {l["slug"]: l for l in listings}
 
-HOME_FAQ = [
-("What is AgentIndexed?", f"AgentIndexed is a hand-curated directory of {len(listings)} AI agents, frameworks, and tools organized into {len(cat_names)} categories — from coding agents to voice platforms. Every listing is reviewed before it goes live."),
-("How do I submit my AI agent?", "Use the submit page — basic listings are free and reviewed within 5–7 days. Featured listings ($49 one-time) are reviewed within 24 hours and placed at the top of their category and on the homepage."),
-("What does a Featured listing include?", "Twelve months at the top of your category, placement in the homepage featured section, a Featured badge, a dofollow backlink to your site, and priority 24-hour review."),
-("Do listings include a dofollow backlink?", "Yes. Every listing — free or paid — links to your site with a standard dofollow link that search engines and AI assistants can follow."),
-("How are agents ranked?", "Categories list featured placements first, then all agents alphabetically. Search results are never pay-to-play — they match on name, description, and category only."),
-]
 def faq_html(qs): return '<div class="faq">'+ "".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q,a in qs) +"</div>"
 def faq_schema(qs): return {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qs]}
 def crumbs_schema(items): return {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":i+1,"name":n,"item":DOMAIN+u} for i,(n,u) in enumerate(items)]}
+def crumb_html(items):
+    parts = [f'<a href="{u}">{esc(n)}</a>' for n,u in items[:-1]] + [esc(items[-1][0])]
+    return '<nav class="wrap crumb" aria-label="Breadcrumb">' + ' <span aria-hidden="true">/</span> '.join(parts) + '</nav>'
+def itemlist(name, ls):
+    return {"@context":"https://schema.org","@type":"ItemList","name":name,"numberOfItems":len(ls),
+            "itemListElement":[{"@type":"ListItem","position":i+1,"url":f"{DOMAIN}/agents/{x['slug']}/","name":x["name"]} for i,x in enumerate(ls)]}
+REVIEWED = f'<p class="meta-line">Reviewed by the {SITE} editorial team &middot; Updated {TODAY.strftime("%B %d, %Y")} &middot; <a href="/methodology/">How we review</a></p>'
+def rank(x): return (not x["featured"], "overview" not in x, x["name"].lower())
+
+# ---------- programmatic data: comparisons, alternatives, best-of ----------
+CMP_PER_CAT = 6
+pairs = []
+for c in cat_names:
+    top = sorted(cats[c], key=rank)[:CMP_PER_CAT]
+    for i in range(len(top)):
+        for j in range(i+1, len(top)):
+            a, b = sorted([top[i], top[j]], key=lambda x: x["slug"])
+            pairs.append((a, b))
+def pslug(a, b): return f"{a['slug']}-vs-{b['slug']}"
+cmp_of = {}
+for a, b in pairs:
+    cmp_of.setdefault(a["slug"], []).append((b, pslug(a,b))); cmp_of.setdefault(b["slug"], []).append((a, pslug(a,b)))
+
+def alternatives(l, n=8):
+    out = []
+    for x in listings:
+        if x["slug"] == l["slug"]: continue
+        shared = [t for t in x["tags"] if t in l["tags"]]
+        score = (4 if x["category"] == l["category"] else 0) + len(shared)
+        if x["category"] != l["category"] and len(shared) < 2: continue
+        if score: out.append((score, not x["featured"], x["name"].lower(), x, shared))
+    out.sort(key=lambda t: t[:3])
+    return [(t[3], t[4]) for t in out[:n]]
+
+BEST = {
+"Python":("best-python-ai-agents","Best Python AI Agents & Frameworks","Python is still the default language of agent engineering. These are the reviewed agents, frameworks and tools in the index that are Python-first or ship a first-class Python SDK."),
+"Multi-Agent":("best-multi-agent-frameworks","Best Multi-Agent Frameworks & Platforms","Multi-agent systems split work across specialised agents that plan, delegate and check each other. These tools are built for orchestrating teams of agents rather than a single assistant."),
+"Cloud":("best-cloud-ai-agents","Best Cloud-Hosted AI Agents","Cloud-hosted agents run on the vendor's infrastructure, so there is nothing to deploy. Good for teams that want results fast and are comfortable sending data to a managed service."),
+"IDE":("best-ai-coding-agents-for-ide","Best AI Coding Agents for Your IDE","Agents that live inside the editor: inline edits, multi-file changes and chat with your codebase without leaving the IDE."),
+"TypeScript":("best-typescript-ai-agents","Best TypeScript AI Agents & SDKs","For teams building agents in the JavaScript and TypeScript ecosystem, from coding tools to SDKs that run on Node and the edge."),
+"OpenAI":("best-openai-agent-tools","Best Agent Tools in the OpenAI Ecosystem","Agents, SDKs and platforms built by OpenAI or designed around OpenAI models."),
+"GitHub":("best-ai-agents-for-github","Best AI Agents for GitHub Workflows","Agents that work where code review happens: issues, pull requests and CI on GitHub."),
+"CLI":("best-cli-ai-agents","Best Command-Line (CLI) AI Agents","Terminal-first agents for developers who live in the shell: scriptable, fast and easy to wire into existing tooling."),
+"RAG":("best-rag-tools-for-ai-agents","Best RAG Tools for AI Agents","Retrieval-augmented generation grounds agents in your own data. These tools handle indexing, retrieval and context assembly."),
+"MCP":("best-mcp-tools","Best MCP-Compatible AI Agent Tools","Tools that speak the Model Context Protocol, the open standard for connecting agents to data sources and tools."),
+}
+best_lists = []
+for tag, (bslug, btitle, bintro) in BEST.items():
+    ls = sorted([x for x in listings if tag in x["tags"]], key=rank)
+    if len(ls) >= 4: best_lists.append((bslug, btitle, bintro, tag, ls))
 
 # ---------- HOME ----------
+HOME_FAQ = [
+("What is AgentIndexed?", f"AgentIndexed is a hand-curated directory of {len(listings)} AI agents, frameworks and tools organized into {len(cat_names)} categories, from coding agents to voice platforms. Every listing is reviewed by a person before it goes live."),
+("How do I submit my AI agent?", "Use the submit page. Basic listings are free and reviewed within 5–7 days. Featured listings ($49 one-time) are reviewed within 24 hours and placed at the top of their category and on the homepage."),
+("What does a Featured listing include?", "Twelve months at the top of your category, placement in the homepage featured section, a Featured badge, a dofollow backlink to your site, and priority 24-hour review."),
+("Do listings include a dofollow backlink?", "Yes. Every listing, free or paid, links to your site with a standard dofollow link that search engines and AI assistants can follow."),
+("How are agents ranked?", "Categories list featured placements first, then all agents alphabetically. Search results are never pay-to-play: they match on name, description, tags and category only."),
+]
 strip_domains = ["anthropic.com","openai.com","github.com","google.com","microsoft.com","aws.amazon.com","huggingface.co","langchain.com"]
-strip = "".join(f'<img src="https://www.google.com/s2/favicons?domain={d}&sz=64" alt="{d}" loading="lazy" width="26" height="26">' for d in strip_domains)
-cat_cards = "".join(f'<a class="cat-card reveal" href="/categories/{cslug(c)}/"><div class="cat-ico">{ICONS.get(c,"")}</div><div><b>{esc(c)}</b><span>{len(cats[c])} agents</span></div></a>' for c in cat_names)
-feat_cards = "".join(card(l) for l in featured)
+strip = "".join(f'<img src="https://www.google.com/s2/favicons?domain={d}&sz=64" alt="{d}" loading="lazy" decoding="async" width="22" height="22">' for d in strip_domains)
+cat_cards = "".join(f'<a class="cat-card" href="/categories/{cslug(c)}/"><div class="cat-ico">{ICONS.get(c,"")}</div><div><b>{esc(c)}</b><span>{len(cats[c])} agents</span><small>{esc(", ".join(x["name"] for x in sorted(cats[c], key=rank)[:3]))}</small></div></a>' for c in cat_names)
+chips = '<span>Popular:</span>' + "".join(f'<a href="{h}">{esc(t)}</a>' for t,h in [("Coding agents","/categories/coding-agents/"),("Multi-agent frameworks","/best/best-multi-agent-frameworks/"),("Browser automation","/categories/browser-computer-use/"),("Voice agents","/categories/voice-agents/"),("MCP tools","/best/best-mcp-tools/")])
+pop_pairs = [p for p in pairs if p[0]["featured"] or p[1]["featured"]][:6] + [p for p in pairs if not (p[0]["featured"] or p[1]["featured"])][:6]
+pop_cmp = links_html([(f"{a['name']} vs {b['name']}", f"/compare/{pslug(a,b)}/", a["category"]) for a,b in pop_pairs[:12]])
+best_links = links_html([(t, f"/best/{s}/", f"{len(ls)} tools") for s,t,_,_,ls in best_lists])
+latest = list(reversed(listings[-6:]))
+TIERS = f"""<div class="tiers">
+<div class="tier"><h3>Basic</h3><div class="amt">$0</div><p>Reviewed listing in your category with a dofollow backlink.</p><a class="btn btn-o btn-sm" href="/submit/">Submit free</a></div>
+<div class="tier hot"><h3>Featured</h3><div class="amt">$49 <small>one-time</small></div><p>Top of your category and the homepage for 12 months. Live within 24 hours.</p><a class="btn btn-a btn-sm" href="/submit/?plan=featured">Get Featured</a></div>
+<div class="tier"><h3>Pro</h3><div class="amt">$19 <small>/month</small></div><p>Permanent top placement, edits any time, launch re-promotion.</p><a class="btn btn-o btn-sm" href="/submit/?plan=pro">Go Pro</a></div>
+<div class="tier"><h3>Homepage Sponsor</h3><div class="amt">$99 <small>/month</small></div><p>The one banner on every page. Exclusive, one sponsor at a time.</p><a class="btn btn-o btn-sm" href="/submit/?plan=sponsor">Claim the slot</a></div>
+</div>"""
+TRUST = """<div class="trust">
+<div><b>Reviewed by a person</b><p>Every submission is checked for a working product, a real website and an accurate description.</p></div>
+<div><b>No pay-to-play search</b><p>Paid placements are badged and confined to featured slots. Search and rankings never change for money.</p></div>
+<div><b>Honest categories</b><p>Tools are filed by what they actually do, so a category page is a real shortlist.</p></div>
+<div><b>Re-checked regularly</b><p>Listings are re-verified and dead tools are removed, so you don't waste an afternoon on a 404.</p></div>
+</div>"""
 
 home_schema = [
- {"@context":"https://schema.org","@type":"WebSite","name":SITE,"url":DOMAIN,"description":f"Curated directory of {len(listings)} AI agents and tools."},
- {"@context":"https://schema.org","@type":"Organization","name":SITE,"url":DOMAIN,"email":CONTACT},
+ {"@context":"https://schema.org","@type":"WebSite","@id":DOMAIN+"/#website","name":SITE,"url":DOMAIN+"/","description":f"Curated directory of {len(listings)} AI agents and tools.",
+  "publisher":{"@id":DOMAIN+"/#org"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":DOMAIN+"/?q={search_term_string}"},"query-input":"required name=search_term_string"}},
+ {"@context":"https://schema.org","@type":"Organization","@id":DOMAIN+"/#org","name":SITE,"url":DOMAIN+"/","logo":DOMAIN+"/og.png","email":CONTACT},
+ {"@context":"https://schema.org","@type":"CollectionPage","name":f"{SITE}: AI agent directory","url":DOMAIN+"/","isPartOf":{"@id":DOMAIN+"/#website"},"mainEntity":itemlist("Featured AI agents", featured)},
  faq_schema(HOME_FAQ),
 ]
 home_body = f"""
 <div class="hero">
-<div class="orb orb-1"></div><div class="orb orb-2"></div>
 <div class="wrap">
-<span class="pill"><span class="live"></span> <b>{len(listings)} agents indexed</b> · updated {TODAY.strftime('%B %Y')}</span>
-<h1>Find the right <em>AI&nbsp;agent</em><br>for any job</h1>
-<p class="lead">The hand-curated index of AI agents, frameworks and tools that actually ship — organized into {len(cat_names)} honest categories, with zero pay-to-play rankings in search.</p>
-<div class="cta"><a class="btn btn-p" href="/submit/">Submit your agent</a><a class="btn btn-o" href="#categories">Browse categories ↓</a></div>
-<div class="search"><div class="glow"></div><span class="ico">⌕</span><input id="q" type="search" aria-label="Search agents" placeholder="Search {len(listings)} agents — try 'coding', 'voice', 'browser'…" autocomplete="off"><div id="results"></div></div>
-<div class="logostrip"><p>Indexing agents &amp; frameworks from</p><div class="logos">{strip}</div></div>
-<div class="stats"><div><b>{len(listings)}</b><span>agents listed</span></div><div><b>{len(cat_names)}</b><span>categories</span></div><div><b>24h</b><span>featured review</span></div><div><b>100%</b><span>hand-curated</span></div></div>
+<span class="pill"><span class="live"></span><b>{len(listings)} agents</b> &middot; reviewed {TODAY.strftime('%B %Y')}</span>
+<h1>Find the right <em>AI agent</em><br>for the job.</h1>
+<p class="lead">A hand-curated index of the AI agents, frameworks and tools that actually ship, organized into {len(cat_names)} honest categories. No pay-to-play search.</p>
+<form class="search" role="search" action="/" onsubmit="return false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" name="q" type="search" aria-label="Search agents" placeholder="Search {len(listings)} agents: coding, voice, browser…" autocomplete="off"><kbd>/</kbd><div id="results" role="listbox"></div></form>
+<div class="chips">{chips}</div>
+<div class="logostrip"><p>Indexing agents and frameworks from</p><div class="logos">{strip}</div></div>
+<div class="stats"><div><b>{len(listings)}</b><span>agents listed</span></div><div><b>{len(cat_names)}</b><span>categories</span></div><div><b>{len(pairs)}</b><span>head-to-head comparisons</span></div><div><b>100%</b><span>human-reviewed</span></div></div>
 </div></div>
-<section class="wrap"><div class="sec-head"><div><h2 class="sec">★ <span class="em">Featured</span> Agents</h2><p class="sub">Premium placements from teams that want to be found.</p></div><a class="sec-link" href="/pricing/">Get your agent here →</a></div><div class="grid">{feat_cards}</div></section>
-<section class="wrap" id="categories"><div class="sec-head"><div><h2 class="sec">Browse by <span class="em">category</span></h2><p class="sub">Every agent, organized by what it actually does — not by who paid.</p></div></div><div class="cat-grid">{cat_cards}</div></section>
-<section class="wrap"><div class="sec-head"><div><h2 class="sec">How it <span class="em">works</span></h2><p class="sub">From submission to discovery in three steps.</p></div></div>
-<div class="steps">
-<div class="step reveal"><span class="n">01</span><b>Submit your agent</b><p>Two-minute form. Free listings always open; Featured gets 24-hour priority review.</p></div>
-<div class="step reveal"><span class="n">02</span><b>We review &amp; publish</b><p>Every listing is checked by a human. No spam, no dead links, no AI-generated junk sites.</p></div>
-<div class="step reveal"><span class="n">03</span><b>Get discovered</b><p>Your own SEO page, a dofollow backlink, and visibility in the AI assistants that crawl this index.</p></div>
-</div></section>
-<section class="wrap"><div class="upsell reveal"><div class="upsell-in"><h3>🎉 Founding Member spots — free Featured placement, first 20 only</h3><p>Free listings are always open. For launch week, the first 20 agents get Featured placement (top of category + homepage) at no cost in exchange for a short testimonial — normally a one-time $49.</p><a class="btn btn-gold" href="/pricing/">Claim a founding spot →</a></div></div></section>
-<section class="wrap"><div class="sec-head"><div><h2 class="sec">Frequently asked <span class="em">questions</span></h2></div></div>{faq_html(HOME_FAQ)}</section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">Editor's picks</span><h2 class="sec">Featured <span class="em">agents</span></h2><p class="sub">Placements from teams that want to be found. Clearly badged, never mixed into search.</p></div><a class="sec-link" href="/pricing/">Feature your agent &rarr;</a></div><div class="grid">{"".join(card(l) for l in featured)}</div></section>
+<section class="wrap" id="categories"><div class="sec-head"><div><span class="eyebrow">Directory</span><h2 class="sec">Browse by <span class="em">category</span></h2><p class="sub">Every agent, filed by what it actually does, not by who paid.</p></div><a class="sec-link" href="/categories/">All categories &rarr;</a></div><div class="cat-grid">{cat_cards}</div></section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">Shortlists</span><h2 class="sec">Best-of <span class="em">lists</span></h2><p class="sub">Cross-category shortlists by language, protocol and workflow.</p></div><a class="sec-link" href="/best/">All lists &rarr;</a></div>{best_links}</section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">Head to head</span><h2 class="sec">Popular <span class="em">comparisons</span></h2><p class="sub">Side-by-side breakdowns of tools in the same category.</p></div><a class="sec-link" href="/compare/">All {len(pairs)} comparisons &rarr;</a></div>{pop_cmp}</section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">Fresh</span><h2 class="sec">Latest <span class="em">additions</span></h2></div><a class="sec-link" href="/submit/">Add yours &rarr;</a></div><div class="grid">{"".join(card(l) for l in latest)}</div></section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">Why trust this index</span><h2 class="sec">Curated, not <span class="em">scraped</span></h2></div><a class="sec-link" href="/methodology/">Our review process &rarr;</a></div>{TRUST}</section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">For builders</span><h2 class="sec">Get your agent in front of <span class="em">buyers</span></h2><p class="sub">Every listing gets its own page, a dofollow backlink and a spot in the comparisons and shortlists that AI assistants read.</p></div><a class="sec-link" href="/pricing/">Compare plans &rarr;</a></div>{TIERS}
+<div class="upsell"><div class="upsell-in"><h3>Founding Member spots: free Featured placement for the first 20</h3><p>Free listings are always open. For launch, the first 20 agents get Featured placement at no cost in exchange for a short testimonial. Normally $49.</p><a class="btn btn-gold" href="/pricing/">Claim a founding spot &rarr;</a></div></div></section>
+<section class="wrap"><div class="sec-head"><div><span class="eyebrow">FAQ</span><h2 class="sec">Frequently asked <span class="em">questions</span></h2></div></div>{faq_html(HOME_FAQ)}</section>
 """
 open(os.path.join(ROOT,"index.html"),"w").write(page(
- f"{SITE} — Directory of {len(listings)}+ AI Agents, Frameworks & Tools (2026)",
- f"Discover {len(listings)} curated AI agents across coding, voice, browser automation, customer support and more. Submit your AI agent — free listings, featured placement from $49.",
+ f"AI Agents Directory: {len(listings)}+ Curated Agents, Frameworks & Tools (2026) | {SITE}",
+ f"Compare {len(listings)} hand-reviewed AI agents across coding, voice, browser automation, support and more. Side-by-side comparisons, alternatives and best-of lists.",
  home_body, canonical="/", schema=home_schema))
+
+# ---------- CATEGORY HUB ----------
+write("/categories/", page(f"All AI Agent Categories ({len(cat_names)}) | {SITE}",
+  f"Browse {len(listings)} curated AI agents across {len(cat_names)} categories: coding, frameworks, browser automation, voice, support, research and more.",
+  crumb_html([("Home","/"),("Categories","/categories/")]) + f"""<section class="wrap" style="padding-top:20px"><div class="sec-head"><div><h1 class="sec">All <span class="em">categories</span></h1><p class="sub">{len(listings)} reviewed AI agents and tools, filed by what they do.</p></div></div><div class="cat-grid">{cat_cards}</div>
+<div class="sec-head" style="margin-top:48px"><h2 class="sec">Best-of lists</h2></div>{best_links}</section>""",
+  canonical="/categories/", crumbs=[("Home","/"),("Categories","/categories/")],
+  schema=[{"@context":"https://schema.org","@type":"CollectionPage","name":"AI agent categories","url":DOMAIN+"/categories/"}]))
 
 # ---------- CATEGORY PAGES ----------
 for c in cat_names:
     ls = sorted(cats[c], key=lambda x:(not x["featured"],x["name"].lower()))
-    cc = CC[c]
+    cc = CC[c]; cs = cslug(c)
     cat_faq = [
       (f"What are the best {c.lower()} in 2026?", f"AgentIndexed currently lists {len(ls)} {c.lower()}, including "+", ".join(x["name"] for x in ls[:4])+" and more. Featured placements appear first, then all tools alphabetically."),
       (f"How do I choose between {c.lower()}?", " ".join(cc["choose"])+"."),
-      (f"How do I add my tool to this list?", "Submit it free on the submit page (reviewed in 5–7 days), or go Featured for $49 to be reviewed within 24 hours and placed at the top of this category."),
+      ("How do I add my tool to this list?", "Submit it free on the submit page (reviewed in 5–7 days), or go Featured for $49 to be reviewed within 24 hours and placed at the top of this category."),
     ]
-    schema = [
-      {"@context":"https://schema.org","@type":"ItemList","name":f"Best {c} 2026","numberOfItems":len(ls),"itemListElement":[{"@type":"ListItem","position":i+1,"name":x["name"],"url":f"{DOMAIN}/agents/{x['slug']}/"} for i,x in enumerate(ls)]},
-      crumbs_schema([("Home","/"),(c,f"/categories/{cslug(c)}/")]),
-      faq_schema(cat_faq),
-    ]
-    body = f"""
-<div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> {esc(c)}</div>
+    cat_pairs = [(a,b) for a,b in pairs if a["category"] == c]
+    rel_best = [(t, f"/best/{s}/", f"{len(bl)} tools") for s,t,_,_,bl in best_lists if any(x["category"]==c for x in bl)][:6]
+    schema = [{"@context":"https://schema.org","@type":"CollectionPage","name":f"Best {c} in 2026","url":f"{DOMAIN}/categories/{cs}/","about":c,"dateModified":str(TODAY),"mainEntity":itemlist(f"Best {c} 2026", ls)}, faq_schema(cat_faq)]
+    body = crumb_html([("Home","/"),("Categories","/categories/"),(c,f"/categories/{cs}/")]) + f"""
 <section class="wrap" style="padding-top:20px">
-<div class="sec-head"><div><h1 class="sec" style="font-size:2.3rem">{ICONS.get(c,"")}<span class="em">{esc(c)}</span></h1>
-<p class="sub" style="max-width:720px">{esc(cc['intro'])}</p></div>
-<a class="sec-link" href="/pricing/">Get the top spot →</a></div>
+<div class="sec-head"><div><h1 class="sec">{ICONS.get(c,"")}Best {esc(c)} <span class="em">in {TODAY.year}</span></h1>
+<p class="sub" style="max-width:720px">{esc(cc['intro'])}</p>{REVIEWED}</div>
+<a class="btn btn-o btn-sm" href="/submit/?plan=featured">Get the top spot</a></div>
 <div class="grid">{"".join(card(l) for l in ls)}</div>
-<div class="prose" style="margin-top:44px"><h2>How to choose {esc(c.lower())}</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in cc["choose"])}</ul>
+<div class="prose" style="margin-top:44px"><h2>How to choose {esc(c.lower())}</h2><ol>{"".join(f"<li>{esc(x)}</li>" for x in cc["choose"])}</ol>
 <h2>Common use cases</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in cc["uses"])}</ul></div>
-<div class="sec-head" style="margin-top:40px"><h2 class="sec">FAQ</h2></div>{faq_html(cat_faq)}
-<div class="upsell reveal" style="margin-top:40px"><div class="upsell-in"><h3>Want the #1 spot in {esc(c)}?</h3><p>Featured agents appear first in this category and on the homepage. One-time $49, live within 24 hours.</p><a class="btn btn-gold" href="/pricing/">Get featured →</a></div></div>
+{('<div class="sec-head" style="margin-top:44px"><h2 class="sec">Compare '+esc(c)+'</h2></div>'+links_html([(f"{a['name']} vs {b['name']}", f"/compare/{pslug(a,b)}/", "compare") for a,b in cat_pairs])) if cat_pairs else ""}
+{('<div class="sec-head" style="margin-top:44px"><h2 class="sec">Related shortlists</h2></div>'+links_html(rel_best)) if rel_best else ""}
+<div class="sec-head" style="margin-top:44px"><h2 class="sec">FAQ</h2></div>{faq_html(cat_faq)}
+<div class="upsell" style="margin-top:40px"><div class="upsell-in"><h3>Want the #1 spot in {esc(c)}?</h3><p>Featured agents appear first in this category and on the homepage. One-time $49, live within 24 hours.</p><a class="btn btn-a" href="/submit/?plan=featured">Get featured &rarr;</a></div></div>
 </section>"""
-    d = os.path.join(ROOT,"categories",cslug(c)); os.makedirs(d, exist_ok=True)
-    open(os.path.join(d,"index.html"),"w").write(page(
-      f"Best {c} in 2026 — {len(ls)} Tools Compared | {SITE}",
-      f"{cc['intro'][:150]}",
-      body, canonical=f"/categories/{cslug(c)}/", schema=schema))
+    write(f"/categories/{cs}/", page(
+      f"Best {c} in {TODAY.year}: {len(ls)} Tools Compared | {SITE}",
+      trim(f"The best {c.lower()} in {TODAY.year}, hand-reviewed: " + ", ".join(x['name'] for x in ls[:4]) + f" and {max(len(ls)-4,0)} more. How to choose, use cases and head-to-head comparisons."),
+      body, canonical=f"/categories/{cs}/", schema=schema, crumbs=[("Home","/"),("Categories","/categories/"),(c,f"/categories/{cs}/")]))
 
 # ---------- AGENT DETAIL PAGES ----------
 for l in listings:
-    c = l["category"]; cc = CC[c]
+    c = l["category"]; cc = CC[c]; cs = cslug(c)
     use_cases = l.get("use_cases", cc["uses"])
     overview = l.get("overview", f"{l['name']} sits in the {c.lower()} category of the agent stack. {cc['intro']}")
     use_case_intro = f"{l['name']} is used for: " if "use_cases" in l else "Tools in this category are commonly used for: "
-    peers = [x for x in cats[c] if x["slug"] != l["slug"]]
-    related = peers[:6]
-    rel_html = "".join(card(x) for x in related)
-    alt_names = ", ".join(x["name"] for x in peers[:5])
-    fb = '<span class="badge" style="position:static;margin-left:12px;vertical-align:middle">★ Featured</span>' if l["featured"] else ""
+    alts = alternatives(l)
+    alt_names = ", ".join(x["name"] for x,_ in alts[:5])
+    cmps = cmp_of.get(l["slug"], [])
+    fb = ' <span class="badge" style="position:static;vertical-align:middle;margin-left:8px">Featured</span>' if l["featured"] else ""
     agent_faq = [
       (f"What is {l['name']}?", f"{l['name']} is a tool in the {c.lower()} category. {l['description']}"),
       (f"What is {l['name']} used for?", use_case_intro + "; ".join(use_cases).lower()+"."),
-      (f"What are alternatives to {l['name']}?", f"Popular alternatives in the {c.lower()} category include {alt_names}. Compare them all on the {c} category page."),
+      (f"What are the best alternatives to {l['name']}?", f"Popular alternatives include {alt_names}. See the full list of {l['name']} alternatives or compare them on the {c} category page."),
     ]
-    schema = [
-      {"@context":"https://schema.org","@type":"SoftwareApplication","name":l["name"],"url":l["url"],"applicationCategory":c,"description":l["description"],"operatingSystem":"Web"},
-      crumbs_schema([("Home","/"),(c,f"/categories/{cslug(c)}/"),(l["name"],f"/agents/{l['slug']}/")]),
-      faq_schema(agent_faq),
-    ]
-    body = f"""
-<div class="wrap crumb"><a href="/">Home</a> <span style="opacity:.4">/</span> <a href="/categories/{cslug(c)}/">{esc(c)}</a> <span style="opacity:.4">/</span> {esc(l['name'])}</div>
-<div class="wrap detail">
-<div class="detail-head">
-<div class="detail-logo"><img src="{logo(l,128)}" alt="{esc(l['name'])} logo" width="46" height="46" onerror="this.replaceWith('🤖')"></div>
-<div><span class="cat">{esc(c)}</span><h1>{esc(l['name'])}{fb}</h1></div>
-</div>
+    crumbs = [("Home","/"),(c,f"/categories/{cs}/"),(l["name"],f"/agents/{l['slug']}/")]
+    schema = [{"@context":"https://schema.org","@type":"WebPage","name":f"{l['name']} review and alternatives","url":f"{DOMAIN}/agents/{l['slug']}/","dateModified":str(TODAY),"isPartOf":{"@id":DOMAIN+"/#website"},"mainEntity":dict(app_schema(l), **{"@context":"https://schema.org"})}, faq_schema(agent_faq)]
+    cmp_links = links_html([(f"{l['name']} vs {o['name']}", f"/compare/{ps}/", "compare") for o,ps in cmps[:6]]) if cmps else ""
+    body = crumb_html(crumbs) + f"""
+<div class="wrap detail"><div class="detail-grid"><div>
+<div class="detail-head">{avatar(l,"detail-logo",128)}
+<div><span class="cat">{esc(c)}</span><h1>{esc(l['name'])}{fb}</h1></div></div>
 <p class="desc">{esc(l['description'])}</p>
-<div class="kv">
-<div><span>Category</span><b>{esc(c)}</b></div>
-<div><span>Website</span><b>{esc(dom(l['url']))}</b></div>
-<div><span>Tags</span><b>{esc(", ".join(l['tags']) or "—")}</b></div>
-<div><span>Listing</span><b>{"★ Featured" if l['featured'] else "Standard"}</b></div>
-</div>
-<div class="actions">
-<a class="btn btn-p" href="{esc(l['url'])}" target="_blank" rel="noopener">Visit {esc(l['name'])} ↗</a>
-<a class="btn btn-o" href="/categories/{cslug(c)}/">More {esc(c)}</a>
-</div>
+<div class="actions"><a class="btn btn-p" href="{esc(l['url'])}" target="_blank" rel="noopener">Visit {esc(l['name'])} &nearr;</a><a class="btn btn-o" href="/alternatives/{l['slug']}/">{esc(l['name'])} alternatives</a></div>
+{REVIEWED}
 <div class="prose"><h2>What {esc(l['name'])} is for</h2><p>{esc(overview)}</p>
-<h2>Typical use cases</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in use_cases)}</ul></div>
-<div class="claim"><b>Is this your agent?</b><p>Claim this listing to update the description and upgrade to Featured or Pro placement. Email <a href="mailto:{CONTACT}?subject=Claim listing: {esc(l['name'])}">{CONTACT}</a> or <a href="/pricing/">see upgrade options</a>.</p></div>
-<div class="sec-head" style="margin-top:48px"><h2 class="sec">FAQ</h2></div>{faq_html(agent_faq)}
-<div class="sec-head" style="margin-top:48px"><h2 class="sec">Alternatives &amp; related in {esc(c)}</h2></div>
-<div class="grid">{rel_html}</div>
+<h2>Typical use cases</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in use_cases)}</ul>
+<h2>How to evaluate {esc(l['name'])}</h2><ol>{"".join(f"<li>{esc(x)}</li>" for x in cc["choose"])}</ol></div>
+{('<div class="sec-head" style="margin-top:40px"><h2 class="sec">Compare '+esc(l['name'])+'</h2></div>'+cmp_links) if cmp_links else ""}
+<div class="claim"><b>Is this your agent?</b><p>Claim this listing to update the description and move it to the top of {esc(c)}. <a href="/submit/?plan=featured">Upgrade to Featured</a> or email <a href="mailto:{CONTACT}?subject=Claim listing: {esc(l['name'])}">{CONTACT}</a>.</p></div>
+<div class="sec-head" style="margin-top:44px"><h2 class="sec">FAQ</h2></div>{faq_html(agent_faq)}
+</div>
+<aside class="aside" aria-label="At a glance"><h2>At a glance</h2><dl>
+<dt>Category</dt><dd><a href="/categories/{cs}/">{esc(c)}</a></dd>
+<dt>Website</dt><dd>{esc(dom(l['url']))}</dd>
+<dt>Tags</dt><dd>{esc(", ".join(l['tags']) or "—")}</dd>
+<dt>Listing</dt><dd>{"Featured" if l['featured'] else "Standard"}</dd>
+<dt>Reviewed</dt><dd>{TODAY.strftime('%b %Y')}</dd></dl><hr>
+<a class="btn btn-p" href="{esc(l['url'])}" target="_blank" rel="noopener">Visit website &nearr;</a>
+<p class="mini">Listed free. Owners can <a href="/submit/?plan=featured" style="color:var(--accent-2)">feature this tool</a> for $49.</p></aside>
+</div>
+<div class="sec-head" style="margin-top:56px"><h2 class="sec">Alternatives to {esc(l['name'])}</h2><a class="sec-link" href="/alternatives/{l['slug']}/">See all &rarr;</a></div>
+<div class="grid">{"".join(card(x) for x,_ in alts[:6])}</div>
 </div>"""
-    d = os.path.join(ROOT,"agents",l["slug"]); os.makedirs(d, exist_ok=True)
-    open(os.path.join(d,"index.html"),"w").write(page(
-      f"{l['name']} — {c}: Features, Use Cases & Alternatives | {SITE}",
-      f"{l['name']}: {l['description'][:120]} Compare alternatives in {c.lower()}.",
-      body, canonical=f"/agents/{l['slug']}/", schema=schema))
+    write(f"/agents/{l['slug']}/", page(
+      f"{l['name']}: Features, Use Cases & Alternatives ({TODAY.year}) | {SITE}",
+      trim(f"{l['name']}: {l['description']} Compare {l['name']} alternatives in {c.lower()}."),
+      body, canonical=f"/agents/{l['slug']}/", schema=schema, crumbs=crumbs, og_type="article"))
+
+# ---------- ALTERNATIVES ----------
+for l in listings:
+    alts = alternatives(l, 10); c = l["category"]
+    if not alts: continue
+    crumbs = [("Home","/"),("Alternatives","/alternatives/"),(f"{l['name']} alternatives",f"/alternatives/{l['slug']}/")]
+    rows = "".join(f"<tr><th scope=\"row\"><a href=\"/agents/{x['slug']}/\">{esc(x['name'])}</a></th><td>{esc(x['category'])}</td><td>{esc(', '.join(sh) or '—')}</td><td>{esc(trim(x['description'],110))}</td></tr>" for x,sh in alts)
+    faq = [(f"What is the best alternative to {l['name']}?", f"It depends on why you are switching. In the {c.lower()} category the closest options in our index are {', '.join(x['name'] for x,_ in alts[:3])}. Each is reviewed and compared on its own page."),
+           (f"Why look for {l['name']} alternatives?", "Teams usually switch for pricing, deployment model (cloud vs self-hosted), language or framework fit, or integrations. Use the shared-tags column above to find tools that match your stack."),
+           (f"How are these alternatives chosen?", "Alternatives are tools in the same category, plus tools in other categories that share at least two tags. Featured listings are badged and never reorder the list beyond ties.")]
+    body = crumb_html(crumbs) + f"""<section class="wrap" style="padding-top:20px">
+<div class="sec-head"><div><h1 class="sec">{len(alts)} best <span class="em">{esc(l['name'])}</span> alternatives</h1><p class="sub">{esc(l['name'])} is {esc(l['description'][0].lower()+l['description'][1:])} If it isn't the right fit, these reviewed tools cover similar ground.</p>{REVIEWED}</div><a class="btn btn-o btn-sm" href="/agents/{l['slug']}/">About {esc(l['name'])}</a></div>
+<div class="grid">{"".join(card(x, ("Shares "+", ".join(sh[:2])) if sh else "") for x,sh in alts)}</div>
+<h2 class="sec" style="margin-top:48px;font-size:1.4rem">At a glance</h2>
+<div class="table-wrap"><table class="cmp"><thead><tr><th>Tool</th><th>Category</th><th>Shared tags</th><th>Summary</th></tr></thead><tbody>{rows}</tbody></table></div>
+{('<div class="sec-head" style="margin-top:44px"><h2 class="sec">Head-to-head</h2></div>'+links_html([(f"{l['name']} vs {o['name']}", f"/compare/{ps}/", "compare") for o,ps in cmp_of.get(l['slug'],[])])) if cmp_of.get(l['slug']) else ""}
+<div class="sec-head" style="margin-top:44px"><h2 class="sec">FAQ</h2></div>{faq_html(faq)}
+<div class="upsell" style="margin-top:40px"><div class="upsell-in"><h3>Building a {esc(l['name'])} alternative?</h3><p>Get listed free, or go Featured to appear first in {esc(c)} and on the homepage.</p><a class="btn btn-a" href="/submit/?plan=featured">Get featured &rarr;</a></div></div>
+</section>"""
+    write(f"/alternatives/{l['slug']}/", page(
+      f"{len(alts)} Best {l['name']} Alternatives in {TODAY.year} (Compared) | {SITE}",
+      trim(f"Looking for {l['name']} alternatives? Compare {', '.join(x['name'] for x,_ in alts[:3])} and more reviewed {c.lower()} side by side."),
+      body, canonical=f"/alternatives/{l['slug']}/", crumbs=crumbs, schema=[itemlist(f"{l['name']} alternatives", [x for x,_ in alts]), faq_schema(faq)]))
+
+# ---------- COMPARISONS ----------
+for a, b in pairs:
+    c = a["category"]; cc = CC[c]; ps = pslug(a,b)
+    shared = [t for t in a["tags"] if t in b["tags"]]
+    ua = [t for t in a["tags"] if t not in b["tags"]]; ub = [t for t in b["tags"] if t not in a["tags"]]
+    def uc(x): return "; ".join(x.get("use_cases", [])) or "General " + c.lower() + " work"
+    rows = [("Category", f'<a href="/categories/{cslug(c)}/">{esc(c)}</a>', f'<a href="/categories/{cslug(c)}/">{esc(c)}</a>'),
+            ("What it is", esc(a["description"]), esc(b["description"])),
+            ("Tags", esc(", ".join(a["tags"]) or "—"), esc(", ".join(b["tags"]) or "—")),
+            ("Use cases", esc(uc(a)), esc(uc(b))),
+            ("Website", esc(dom(a["url"])), esc(dom(b["url"]))),
+            ("Listing", "Featured" if a["featured"] else "Standard", "Featured" if b["featured"] else "Standard")]
+    table = "".join(f'<tr><th scope="row">{k}</th><td>{x}</td><td>{y}</td></tr>' for k,x,y in rows)
+    others = [(f"{x['name']} vs {o['name']}", f"/compare/{pslug(x,o)}/", c) for x,o in pairs if x["category"]==c and pslug(x,o)!=ps and (a in (x,o) or b in (x,o))][:8]
+    diff = []
+    if ua: diff.append(f"{a['name']} is tagged {', '.join(ua)}, which {b['name']} is not.")
+    if ub: diff.append(f"{b['name']} is tagged {', '.join(ub)}, which {a['name']} is not.")
+    if shared: diff.append(f"Both are tagged {', '.join(shared)}, so they overlap on stack fit.")
+    diff.append(f"Both sit in {c.lower()}; the deciding factor is usually how each one fits the workflow you already run.")
+    faq = [(f"What is the difference between {a['name']} and {b['name']}?", f"{a['name']}: {a['description']} {b['name']}: {b['description']}"),
+           (f"Is {a['name']} or {b['name']} better?", f"Neither is better in every case. "+" ".join(cc["choose"])+". Shortlist both and test them on a real task from your own work."),
+           (f"What are alternatives to {a['name']} and {b['name']}?", "Other reviewed "+c.lower()+" include "+", ".join(x["name"] for x in sorted(cats[c], key=rank) if x not in (a,b))[:300]+".")]
+    crumbs = [("Home","/"),("Compare","/compare/"),(f"{a['name']} vs {b['name']}",f"/compare/{ps}/")]
+    body = crumb_html(crumbs) + f"""<section class="wrap" style="padding-top:20px">
+<h1 class="sec">{esc(a['name'])} <span class="em">vs</span> {esc(b['name'])}</h1>
+<p class="sub">Two {esc(c.lower())} side by side: what each one is, where they differ, and how to pick. Built from {SITE}'s reviewed listings.</p>{REVIEWED}
+<div class="vs-head">
+<a class="vs-side" href="/agents/{a['slug']}/">{avatar(a)}<div><h2>{esc(a['name'])}</h2><span>{esc(dom(a['url']))}</span></div></a>
+<div class="vs-x" aria-hidden="true">vs</div>
+<a class="vs-side" href="/agents/{b['slug']}/">{avatar(b)}<div><h2>{esc(b['name'])}</h2><span>{esc(dom(b['url']))}</span></div></a></div>
+<div class="table-wrap"><table class="cmp"><thead><tr><th></th><th>{esc(a['name'])}</th><th>{esc(b['name'])}</th></tr></thead><tbody>{table}</tbody></table></div>
+<div class="prose"><h2>Key differences</h2><ul>{"".join(f"<li>{esc(x)}</li>" for x in diff)}</ul>
+<h2>Which should you choose?</h2>
+<p><strong>Pick {esc(a['name'])}</strong> if this matches what you need: {esc(a['description'])}</p>
+<p><strong>Pick {esc(b['name'])}</strong> if this matches what you need: {esc(b['description'])}</p>
+<h3>Questions to settle before you commit</h3><ol>{"".join(f"<li>{esc(x)}</li>" for x in cc["choose"])}</ol></div>
+<div class="actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn btn-o" href="/alternatives/{a['slug']}/">{esc(a['name'])} alternatives</a><a class="btn btn-o" href="/alternatives/{b['slug']}/">{esc(b['name'])} alternatives</a><a class="btn btn-o" href="/categories/{cslug(c)}/">All {esc(c)}</a></div>
+{('<div class="sec-head" style="margin-top:44px"><h2 class="sec">Related comparisons</h2></div>'+links_html(others)) if others else ""}
+<div class="sec-head" style="margin-top:44px"><h2 class="sec">FAQ</h2></div>{faq_html(faq)}
+<div class="upsell" style="margin-top:40px"><div class="upsell-in"><h3>Building in {esc(c)}?</h3><p>Featured tools appear first in the category and on the homepage, and get added to comparisons like this one.</p><a class="btn btn-a" href="/submit/?plan=featured">Get featured &rarr;</a></div></div>
+</section>"""
+    write(f"/compare/{ps}/", page(
+      f"{a['name']} vs {b['name']} ({TODAY.year}): Side-by-Side Comparison | {SITE}",
+      trim(f"{a['name']} vs {b['name']}: compare features, tags and use cases of these two {c.lower()}, and see which one fits your workflow."),
+      body, canonical=f"/compare/{ps}/", crumbs=crumbs, og_type="article",
+      schema=[{"@context":"https://schema.org","@type":"WebPage","name":f"{a['name']} vs {b['name']}","url":f"{DOMAIN}/compare/{ps}/","dateModified":str(TODAY),"about":[app_schema(a),app_schema(b)]}, faq_schema(faq)]))
+
+# ---------- BEST-OF LISTS ----------
+for bslug, btitle, bintro, tag, ls in best_lists:
+    crumbs = [("Home","/"),("Best of","/best/"),(btitle,f"/best/{bslug}/")]
+    cats_in = sorted({x["category"] for x in ls})
+    faq = [(f"What is the {btitle.lower().replace('best ','best ',1)}?", f"There is no single winner. Top picks in our index include {', '.join(x['name'] for x in ls[:4])}. Start from the category that matches your job: {', '.join(cats_in[:4])}."),
+           ("How is this list ordered?", "Featured placements first (clearly badged), then tools with full editorial overviews, then alphabetically. Inclusion is never paid: every tool here passed the same human review.")]
+    body = crumb_html(crumbs) + f"""<section class="wrap" style="padding-top:20px">
+<div class="sec-head"><div><h1 class="sec">{esc(btitle)} <span class="em">({TODAY.year})</span></h1><p class="sub" style="max-width:720px">{esc(bintro)}</p>{REVIEWED}</div></div>
+<div class="grid">{"".join(card(x) for x in ls)}</div>
+<div class="prose" style="margin-top:44px"><h2>The shortlist at a glance</h2><ol>{"".join(f'<li><span><a href="/agents/{x["slug"]}/">{esc(x["name"])}</a> ({esc(x["category"])}): {esc(x["description"])}</span></li>' for x in ls[:10])}</ol>
+<h2>Browse by category</h2><ul>{"".join(f'<li><a href="/categories/{cslug(k)}/">{esc(k)}</a></li>' for k in cats_in)}</ul></div>
+<div class="sec-head" style="margin-top:44px"><h2 class="sec">FAQ</h2></div>{faq_html(faq)}
+<div class="upsell" style="margin-top:40px"><div class="upsell-in"><h3>Belong on this list?</h3><p>Submit your tool free. Featured tools are reviewed within 24 hours and shown first.</p><a class="btn btn-a" href="/submit/?plan=featured">Get featured &rarr;</a></div></div>
+</section>"""
+    write(f"/best/{bslug}/", page(f"{btitle} ({TODAY.year}): {len(ls)} Reviewed Picks | {SITE}", trim(f"{bintro} {len(ls)} reviewed picks including {', '.join(x['name'] for x in ls[:3])}."),
+      body, canonical=f"/best/{bslug}/", crumbs=crumbs, og_type="article", schema=[itemlist(btitle, ls), faq_schema(faq)]))
+
+# ---------- HUBS ----------
+best_hub = [(t, f"/best/{s}/", f"{len(ls)} tools") for s,t,_,_,ls in best_lists] + [(f"Best {c}", f"/categories/{cslug(c)}/", f"{len(cats[c])} tools") for c in cat_names]
+write("/best/", page(f"Best AI Agents & Tools: {len(best_hub)} Curated Lists ({TODAY.year}) | {SITE}", "Curated best-of lists of AI agents by language, protocol, workflow and category. Every tool is human-reviewed.",
+  crumb_html([("Home","/"),("Best of","/best/")]) + f'<section class="wrap" style="padding-top:20px"><div class="sec-head"><div><h1 class="sec">Best-of <span class="em">lists</span></h1><p class="sub">Shortlists of reviewed AI agents and tools, by stack and by job.</p></div></div>{links_html(best_hub)}</section>',
+  canonical="/best/", crumbs=[("Home","/"),("Best of","/best/")]))
+cmp_hub = ""
+for c in cat_names:
+    cp = [(f"{a['name']} vs {b['name']}", f"/compare/{pslug(a,b)}/", "compare") for a,b in pairs if a["category"]==c]
+    if cp: cmp_hub += f'<div class="sec-head" style="margin-top:36px"><h2 class="sec" style="font-size:1.3rem">{esc(c)}</h2></div>' + links_html(cp)
+write("/compare/", page(f"AI Agent Comparisons: {len(pairs)} Head-to-Head Matchups | {SITE}", f"Side-by-side comparisons of {len(pairs)} pairs of AI agents, frameworks and tools in the same category.",
+  crumb_html([("Home","/"),("Compare","/compare/")]) + f'<section class="wrap" style="padding-top:20px"><h1 class="sec">AI agent <span class="em">comparisons</span></h1><p class="sub">{len(pairs)} head-to-head breakdowns of tools in the same category.</p>{cmp_hub}</section>',
+  canonical="/compare/", crumbs=[("Home","/"),("Compare","/compare/")]))
+alt_hub = ""
+for c in cat_names:
+    alt_hub += f'<div class="sec-head" style="margin-top:36px"><h2 class="sec" style="font-size:1.3rem">{esc(c)}</h2></div>' + links_html([(f"{x['name']} alternatives", f"/alternatives/{x['slug']}/", "") for x in sorted(cats[c], key=lambda x:x["name"].lower())])
+write("/alternatives/", page(f"Alternatives to {len(listings)} AI Agents & Tools | {SITE}", "Find alternatives to any AI agent, framework or tool in the index, ranked by category and stack overlap.",
+  crumb_html([("Home","/"),("Alternatives","/alternatives/")]) + f'<section class="wrap" style="padding-top:20px"><h1 class="sec">Find an <span class="em">alternative</span></h1><p class="sub">Pick the tool you are replacing. We rank alternatives by category and shared stack.</p>{alt_hub}</section>',
+  canonical="/alternatives/", crumbs=[("Home","/"),("Alternatives","/alternatives/")]))
+
+# ---------- METHODOLOGY ----------
+write("/methodology/", page(f"How We Review AI Agents: Methodology | {SITE}", "How AgentIndexed reviews, categorizes, ranks and re-checks AI agent listings, and how paid placements are kept separate from search.",
+  crumb_html([("Home","/"),("Methodology","/methodology/")]) + f"""<section class="wrap prose" style="padding-top:20px">
+<h1 class="sec">How we <span class="em">review</span></h1>{REVIEWED}
+<p>{SITE} is a curated index, not a scraped one. This page explains exactly what happens between a submission and a published listing, and what money can and cannot buy.</p>
+<h2>1. Submission</h2><p>Anyone can submit a tool through the <a href="/submit/">submit form</a>. Free and paid submissions go through the same checks.</p>
+<h2>2. Human review</h2><ol><li>The product works and is publicly available or has a real waitlist.</li><li>The website is the vendor's own, not an affiliate or reseller page.</li><li>The description is accurate. We rewrite marketing claims we cannot verify.</li><li>The tool fits a category by what it does.</li></ol>
+<h2>3. Categorization and tags</h2><p>Each tool gets one category and a small set of tags (language, protocol, deployment). Tags drive the best-of lists, alternatives and comparisons, so they are kept factual.</p>
+<h2>4. Ordering</h2><p>Category pages and lists show Featured placements first, clearly badged, then tools with full editorial overviews, then alphabetical order. Search never takes payment into account.</p>
+<h2>5. Re-checks and removals</h2><p>Listings are re-checked periodically. Tools that shut down, change category or stop matching their description are updated or removed. Spot something out of date? Email <a href="mailto:{CONTACT}">{CONTACT}</a>.</p>
+<h2>What paid plans buy</h2><p>Featured, Pro and Sponsor plans buy position and visibility. They never buy a listing that would not be accepted for free, and they never change search results. See <a href="/pricing/">pricing</a>.</p>
+</section>""", canonical="/methodology/", crumbs=[("Home","/"),("Methodology","/methodology/")]))
 print("core pages done")
 
 # ---------- PRICING ----------
@@ -444,6 +674,10 @@ open(os.path.join(ROOT,"llms.txt"),"w").write(f"""# {SITE}
 - [Pricing / feature your agent]({DOMAIN}/pricing/): Featured $49 one-time, Pro $19/mo, Homepage sponsor $99/mo
 - [Submit an agent]({DOMAIN}/submit/)
 - [About & curation policy]({DOMAIN}/about/)
+- [Best-of lists]({DOMAIN}/best/)
+- [Alternatives]({DOMAIN}/alternatives/)
+- [Comparisons]({DOMAIN}/compare/)
+- [Methodology]({DOMAIN}/methodology/)
 
 ## Categories
 """ + "\n".join(f"- [{c}]({DOMAIN}/categories/{cslug(c)}/): {len(cats[c])} agents. {CC[c]['intro'].split('.')[0]}." for c in sorted(cats.keys())))
@@ -451,6 +685,12 @@ open(os.path.join(ROOT,"llms.txt"),"w").write(f"""# {SITE}
 urls = [("/",1.0,"daily"),("/pricing/",0.9,"monthly"),("/submit/",0.9,"monthly"),("/about/",0.5,"monthly")]
 urls += [(f"/categories/{cslug(c)}/",0.8,"weekly") for c in sorted(cats.keys())]
 urls += [(f"/agents/{l['slug']}/",0.6,"weekly") for l in listings]
+have = {u for u,_,_ in urls}
+for sec,pr in (('compare',0.5),('alternatives',0.6),('best',0.7)):
+    base = os.path.join(ROOT, sec)
+    if os.path.isdir(base):
+        urls += [(f'/{sec}/',pr+0.1,'weekly')] + [(f'/{sec}/{d}/',pr,'monthly') for d in sorted(os.listdir(base)) if os.path.isdir(os.path.join(base,d))]
+urls += [('/methodology/',0.4,'monthly')]
 urls += [("/terms/",0.2,"yearly"),("/privacy/",0.2,"yearly"),("/refunds/",0.3,"yearly")]
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 sm+="".join(f"<url><loc>{DOMAIN}{u}</loc><lastmod>{TODAY}</lastmod><changefreq>{f}</changefreq><priority>{p}</priority></url>\n" for u,p,f in urls)+"</urlset>"
